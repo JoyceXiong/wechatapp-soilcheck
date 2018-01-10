@@ -1,0 +1,17 @@
+<!--pages/myInfo/myInfo.wxml-->
+<view class="userinfo">    
+    <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>   
+</view>
+<view class="userOders">
+  <view class="flex-view-row tittle">
+    <text class="iconfont icon-dingdan tittle-item" space='true' decode='true'>&ensp;我的订单</text>  
+    <text class="iconfont tittle-item1" bindtap='checkAllTap'>查看全部 ></text>
+  </view>
+  <view class="line-css"></view>
+  <view class="flex-view-row content">
+    <text class="iconfont icon-yinxingqia state-item" bindtap='checkInitial'>待付款</text>
+    <text class="iconfont icon-shiyanshaobei2 state-item" bindtap='checkPaid'>待检测</text>
+    <text class="iconfont icon-order state-item" bindtap='checkShipped'>已完成</text>
+  </view>  
+</view>

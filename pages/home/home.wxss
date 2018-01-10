@@ -1,0 +1,74 @@
+/* pages/home/home.wxss */
+.home {
+  padding-bottom: 15px;
+  background-color: #F8F8F8;
+}
+.contentView {
+  display: block;
+  width: auto;
+  border:solid 1rpx;
+  border-color: #ccc;
+  border-radius: 4px;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  box-shadow: 0 1rpx 1rpx #8E8E8E;
+  margin-top: 30px;  
+  background-color: #FFF;
+}
+.flex-view-row {
+  color: #666;  
+  display: flex;
+  margin: 0 10px 0 15px;
+  
+}
+.verticalLine {
+  color: #439CD9;
+}
+
+
+.line-css {
+    height: 2rpx;
+    background: #F8F8F8;
+    margin: 5rpx 20rpx;
+}
+.tittle {
+  margin-top:5rpx;
+  color: #777;
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  display: flex;
+  justify-content: left;
+  color: #888;
+  font-size: 28rpx;
+  margin:0 15px 15px 15px;
+}
+.soil-img {
+  width: 90%;
+  height: 400rpx; 
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;   
+  margin: 0 auto ;
+  margin-bottom: 28rpx;
+
+}
+
+.btnCheck {
+  background-color: #439CD9;
+  border-color: #439CD9;
+  color: #ffffff;
+  margin: 15px 15px 10px 15px;
+  font-size: 28rpx;
+}
+
+.head-img {
+  width: 100%;
+  height: 200rpx; 
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto ;
+}

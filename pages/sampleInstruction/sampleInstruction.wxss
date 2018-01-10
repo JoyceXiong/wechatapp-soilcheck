@@ -1,0 +1,55 @@
+/* pages/sampleInstruction/sampleInstruction.wxss */
+.sampleInstruction {
+  padding-bottom: 15px;
+}
+.contentView {
+  display: block;
+  width: auto;
+  border:solid 1rpx;
+  border-color: #ccc;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  box-shadow: 0 0 2rpx #bbbbbb;
+  margin-top: 15px;
+}
+.flex-view-row {
+  color: #666;  
+  display: flex;
+  margin: 0 10px 0 15px;
+  
+}
+.verticalLine {
+  color: #439CD9;
+}
+
+.verticalLine {
+  color: #1296db;
+}
+.line-css {
+    height: 1px;
+    background: #ddd;
+    margin: 5rpx 20rpx;
+}
+.tittle {
+  color: #7D7D7D;
+  font-size: 28rpx;
+  display: flex;
+  flex-direction: column; 
+  margin: 5rpx 0 5rpx 15rpx;
+}
+.content {
+  color: #ADADAD;
+  font-size: 28rpx;
+  margin:0 15px 15px 15px;
+}
+image {
+  width: 90%;
+  height: 200px; 
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: row;
+  margin: 15px ;
+  border-radius: 5px;
+  align-items: center;
+}

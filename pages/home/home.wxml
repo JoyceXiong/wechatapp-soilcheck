@@ -1,0 +1,33 @@
+<!--pages/home/home.wxml-->
+<scroll-view class="home">
+<image class="head-img" mode="{{item.mode}}" src="{{src.rose}}"></image> 
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> {{tittle}}</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    {{content}}
+    </text>     
+  </view>
+  <button bindtap='startCheckTap' class="btnCheck">开始检测</button>
+   
+</scroll-view>
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> 项目内容</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    -土壤理化性质，大量与微量元素的测量，评估土壤质量与肥力。
+    -植物组织中大量元素及微量元素测量，评估植物在生长季中是否缺素。
+    -解读土壤和植物组织测试结果，为针对性施肥，节约用肥，平衡施肥提供建议。
+    -评估灌溉用水质量。
+    </text>     
+  </view>
+  <image class="soil-img" mode="{{item.mode}}" src="{{src.soilItem}}"></image>  
+</scroll-view>
+</scroll-view>
+

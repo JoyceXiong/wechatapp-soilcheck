@@ -1,0 +1,16 @@
+<!--index.wxml -->
+<view class="index" >   
+  <view class="usermotto">
+    <view class="section__ctn">
+        <image class="logo"  style="width: 300rpx; height: 300rpx; border-radius:50%" mode="{{mode}}" src="{{src}}"></image>
+      </view>
+    <text  class="user-motto">{{motto}}</text>
+  </view>
+  <view class="userinfo">
+    <button class="iconfont icon-weixin login" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" > 微信登录 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+</view>

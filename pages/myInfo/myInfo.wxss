@@ -1,0 +1,70 @@
+/* pages/myInfo/myInfo.wxss */
+
+.userinfo {
+  margin-top: 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname {
+  color: #7D7D7D;
+  font-size: 28rpx;
+}
+.userOders {
+  display: block;
+  border:solid 1rpx;
+  border-color: #ccc;  
+  max-height: 300px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  box-shadow: 0 0 2rpx #bbbbbb;
+  margin-top: 50px;
+}
+.flex-view-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  color: #878787;
+}
+.line-css {
+    height: 1px;
+    background: #ddd;
+    margin: 5rpx 20rpx;
+} 
+.tittle-item {
+  color: #7D7D7D;
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+  flex-wrap: wrap;
+  justify-content: space-between;  
+  font-size: 28rpx;
+}
+.tittle-item1 {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: #A3A3A3;  
+  font-size: 24rpx;
+}
+.state-item {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; 
+  align-items: center;
+  margin: 15px auto;  
+  font-size: 24rpx;
+  color: #A3A3A3;
+}
+

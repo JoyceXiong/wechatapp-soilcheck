@@ -1,0 +1,49 @@
+<!--pages/sampleInstruction/sampleInstruction.wxml-->
+<scroll-view class="sampleInstruction">
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> 采样说明</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    一个土样一般是由几个不同采土点采集的土混合而成，这几个点可按Z或W型分布在一块田中（见下图，每个红色X代表一个采土点）。一个土样的采土点不要超过8-10个，否则无代表性，同时避开路边、田埂、沟边、肥堆等特殊位置。
+    </text>     
+  </view>
+  <image  mode="{{item.mode}}" src="{{src.img1}}"></image>  
+</scroll-view>
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> 采样数量</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    面积为1-5亩的地，建议每块地选3-5个采土点然后混合成一个土样；面积超过5亩的地，采5-10个点的土壤混合成1到2个土样，面积超过10亩，分区对每5-10亩进行多点取样后混合为数个土样。
+    </text>     
+  </view>  
+</scroll-view>
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> 采样方法</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    照下图说明对每个采土点进行取土，然后多个点的土进行混合成一个土样。土样充分混合后留1公斤左右为宜，可用四分法讲多余的土壤弃去。方法是量采集的土样混匀，挑去石头树叶等杂质，铺成正方形，划对角线分成四份，把对角的两份分别合并成一份，保留一份，弃去一份。
+    </text>     
+  </view>
+  <image  mode="{{item.mode}}" src="{{src.img2}}"></image>  
+</scroll-view>
+<scroll-view class="contentView">
+  <view class="flex-view-row tittle">
+    <text class="tittle"><text class="verticalLine">|</text> 采样寄送</text> 
+  </view>
+  <view class="line-css"></view>  
+  <view class="flex-view-row content">
+    <text decode="{{true}}" space="{{true}}">
+    土样一定要用可密封塑料袋（如封口袋）封好，用比较厚的纸做标签，用墨水笔填上：姓名、地点（县/镇/村）、采样时间、前茬作物、现茬作物。标签一式两份，最好多次折叠以防被污损，袋内外各一份，然后用快递发到大蚯蚓土壤检测实验室。如不能及时发送，请将土样保存在冷藏柜中，不要超过一周。
+    </text>     
+  </view> 
+</scroll-view>
+</scroll-view>

@@ -1,0 +1,13 @@
+<!--pages/submitOrder/submitOrder.wxml-->
+<view class="contentView">
+  
+  <input class="input" type="text" maxlength="10" bindinput="bindNameInput" value='{{name}}' placeholder='输入姓名...'focus="true" />
+  <text class="input" style='color:red;font-size:12px;' wx:if="{{nameShow}}">*请输入姓名</text>
+  <input class="input" type="number" maxlength="11" bindinput="bindPhoneInput" value='{{phone}}' placeholder='输入手机号...' />
+  <text class="input" style='color:red;font-size:12px;' wx:if="{{phoneShow}}">*请输入手机号</text>
+
+  <textarea class="input" placeholder='输入收货地址...' auto-height bindinput="bindAddressInput" value='{{address}}'></textarea>
+  <text class="input" style='color:red;font-size:12px;' wx:if="{{addrShow}}">*请输入收货地址</text>
+
+</view>
+<button class="nextBtn" bindtap='submittap'>提交订单</button>

@@ -1,0 +1,30 @@
+/* pages/submitOrder/submitOrder.wxss */
+.contentView {
+  display: block;
+  border:solid 1rpx;
+  border-color: #ccc;  
+  max-height: 300px;
+  border-radius: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  box-shadow: 0 0 2rpx #bbbbbb;
+  margin-top: 15px;
+  padding:15px ;
+  
+}
+
+.nextBtn {
+  background-color: #439CD9;
+  color: #ffffff;
+  margin: 15px 15px 10px 15px;  
+  font-size: 28rpx;
+}
+.input {
+  color: #757575;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  margin: 10px 10px 0 10px;
+  font-size: 28rpx;
+}
