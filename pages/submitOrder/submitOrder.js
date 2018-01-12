@@ -18,127 +18,144 @@ Page({
     console.log(e)
     this.setData({ nameShow: false })
     this.setData({ name: e.detail.value})
+    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+      this.setData({ nameShow: true })
+    }
   },
   bindPhoneInput: function (e) {
     this.setData({ phoneShow: false })
     this.setData({ phone: e.detail.value})
+    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+      this.setData({ phoneShow: true })
+    }
   },
   bindAddressInput: function (e) {
     this.setData({ addrShow: false })
     this.setData({ address: e.detail.value})
+    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+      this.setData({ addrShow: true })
+    }
   },
   submittap: function () { 
     var that = this
     
     if (this.data.name == '' || this.data.name.trim().length == 0){
-      this.setData({ nameShow: true })
+      this.setData({ nameShow: true }) 
+      
     }  
     if (this.data.phone == '' || this.data.phone.trim().length == 0) {
       this.setData({ phoneShow: true })
-    } 
+      
+    }
     if (this.data.address == '' || this.data.address.trim().length == 0) {
       this.setData({ addrShow: true })
+      
     } 
-    if (this.data.nameShow || this.data.phoneShow && this.data.addrShow) {
+    if (this.data.nameShow || this.data.phoneShow || this.data.addrShow){
+      this.setData({ addrShow: true })
       return
     } 
-    wx.request({
-      url: 'https://api-dev.daqiuyin.com/api',
-      data: {
-        'service': 'portal',
-        'method': 'POST',
-        'path': '/portal/ql',
-        'data': {
-          'query': 'mutation{ addAddress(name:\"' + this.data.name + '\", mobile:\"' + this.data.phone + '\", address:\"' + this.data.address + '\") }'
-        }
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json', // 默认值
-        'x-auth-token': app.globalData.token
-      },
-      success: function (res) {
-        console.log("添加地址请求")
-        console.log(res.data)
-      },
-      complete: function () {
-        if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
-          console.log("app.globalData.arrSoilitem:", app.globalData.arrSoilitem)
-          console.log("app.globalData.arrSubstritem:", app.globalData.arrSubstritem)
-          
-          var arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
-          var arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
-          console.log("arrSoilitem:", arrSoilitem)
-          console.log("arrSubstritem:", arrSubstritem)
-          console.log("this:",this)
-          // 提交订单
-          wx.request({
-            url: 'https://api-dev.daqiuyin.com/api',
-            data: {
-              'service': 'portal',
-              'method': 'POST',
-              'path': '/portal/ql',
-              'data': {
-                'query': 'mutation{ placeOrder(examine_soil:[' + arrSoilitem + '], examine_stroma:[' + arrSubstritem + '], quantity:' + app.globalData.count + ', amount:' + app.globalData.finalTotal + '){id, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime } }'
-              }
-            },
-            method: 'POST',
-            header: {
-              'content-type': 'application/json', // 默认值
-              'x-auth-token': app.globalData.token
-            },
-            success: function (res) {
-              console.log("下单请求")
-              console.log(res.data)
-              app.globalData.orderid = res.data.data.placeOrder.id
-              // 获取微信支付参数
-              wx.request({
-                url: "https://api-dev.daqiuyin.com/api",
-                data: {
-                  "service": "portal",
-                  "method": "POST",
-                  "path": "/portal/wxpay/getBrandWCPayRequestParams",
-                  "data": {
-                    "total_fee": 1,
-                    "orderid": app.globalData.orderid,
-                    "openid": app.globalData.openid
-                  }
-                },
-                method: "POST",
-                header: {
-                  "content-type": "application/json", // 默认值
-                  "x-auth-token": app.globalData.token
-                },
-                success: function (res) {
-                  console.log("获取微信支付参数：")
-                  console.log(res.data)
-                  var appId = res.data.appId
-                  var timeStamp = res.data.timeStamp
-                  var nonceStr = res.data.nonceStr
-                  var packages = res.data.package
-                  var signType = res.data.signType
-                  var paySign = res.data.paySign
-                  var param = { "appId": appId, "timeStamp": timeStamp, "package": packages, "paySign": paySign, "signType": signType, "nonceStr": nonceStr }
-                  // 跳转到微信支付
-                  that.pay(param)
 
-                },
-                fail: function (err) {
-                  console.log("err")
-                  console.log(err)
+    // 姓名、电话、地址都不为空，方可执行添加地址请求                ·                                     2 ·
+    if (!this.data.nameShow && !this.data.phoneShow && !this.data.addrShow) {    
+     
+      wx.request({
+        url: 'https://api-dev.daqiuyin.com/api',
+        data: {
+          'service': 'portal',
+          'method': 'POST',
+          'path': '/portal/ql',
+          'data': {
+            'query': 'mutation{ addAddress(name:\"' + this.data.name + '\", mobile:\"' + this.data.phone + '\", address:\"' + this.data.address + '\") }'
+          }
+        },
+        method: 'POST',
+        header: {
+          'content-type': 'application/json', // 默认值
+          'x-auth-token': app.globalData.token
+        },
+        success: function (res) {
+          console.log("添加地址请求")
+          console.log(res.data)
+        },
+        complete: function () {
+          if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
+            console.log("app.globalData.arrSoilitem:", app.globalData.arrSoilitem)
+            console.log("app.globalData.arrSubstritem:", app.globalData.arrSubstritem)
+            
+            var arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
+            var arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
+            console.log("arrSoilitem:", arrSoilitem)
+            console.log("arrSubstritem:", arrSubstritem)
+            console.log("this:",this)
+            // 提交订单
+            wx.request({
+              url: 'https://api-dev.daqiuyin.com/api',
+              data: {
+                'service': 'portal',
+                'method': 'POST',
+                'path': '/portal/ql',
+                'data': {
+                  'query': 'mutation{ placeOrder(examine_soil:[' + arrSoilitem + '], examine_stroma:[' + arrSubstritem + '], quantity:' + app.globalData.count + ', amount:' + app.globalData.finalTotal + '){id, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime } }'
                 }
+              },
+              method: 'POST',
+              header: {
+                'content-type': 'application/json', // 默认值
+                'x-auth-token': app.globalData.token
+              },
+              success: function (res) {
+                console.log("下单请求")
+                console.log(res.data)
+                app.globalData.orderid = res.data.data.placeOrder.id
+                // 获取微信支付参数
+                wx.request({
+                  url: "https://api-dev.daqiuyin.com/api",
+                  data: {
+                    "service": "portal",
+                    "method": "POST",
+                    "path": "/portal/wxpay/getBrandWCPayRequestParams",
+                    "data": {
+                      "total_fee": 1,
+                      "orderid": app.globalData.orderid,
+                      "openid": app.globalData.openid
+                    }
+                  },
+                  method: "POST",
+                  header: {
+                    "content-type": "application/json", // 默认值
+                    "x-auth-token": app.globalData.token
+                  },
+                  success: function (res) {
+                    console.log("获取微信支付参数：")
+                    console.log(res.data)
+                    var appId = res.data.appId
+                    var timeStamp = res.data.timeStamp
+                    var nonceStr = res.data.nonceStr
+                    var packages = res.data.package
+                    var signType = res.data.signType
+                    var paySign = res.data.paySign
+                    var param = { "appId": appId, "timeStamp": timeStamp, "package": packages, "paySign": paySign, "signType": signType, "nonceStr": nonceStr }
+                    // 跳转到微信支付
+                    that.pay(param)
+
+                  },
+                  fail: function (err) {
+                    console.log("err")
+                    console.log(err)
+                  }
 
 
-              })
-               
-            }
-          })
+                })
+                
+              }
+            })
+
+          }
 
         }
-
-      }
-    })   
-    
+      })   
+    }
   },
   /* 支付   */
   pay: function (param) {
@@ -152,7 +169,7 @@ Page({
       paySign: param.paySign,
       success: function (res) {
         // success
-        console.log("到支付成功这里")
+        console.log("到支付success这里:", res)
         console.log("微信支付suceescc-currentPages:",getCurrentPages())
         wx.showToast({
           title: '支付成功',
@@ -172,6 +189,7 @@ Page({
       },
       fail: function (res) {
         // fail
+        console.log("到支付fail这里:", res)
         wx.switchTab({
           url: '../myInfo/myInfo',
           success: function () {

@@ -51,7 +51,6 @@
 <view class="userOders" wx:for="{{showorders}}" wx:key="item.id" bindtap='navitoDetail' data-num='{{item.id}}'>
   <view class="column">
     <text class="orderNo">订单号：{{item.id}}</text>
-    
     <text class="orderState" style='color:orange' wx:if="{{item.status == 'initial'}}">待付款</text>
     <text class="orderState" style='color:#3E9ADB' wx:elif="{{item.status == 'paid'}}">待检测</text>
     <text class="orderState" style='color:#ccc' wx:elif="{{item.status == 'expired'}}">已过期</text>

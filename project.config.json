@@ -58,6 +58,12 @@
 					"name": "sampleInstruction",
 					"pathName": "pages/sampleInstruction/sampleInstruction",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "detailOrder",
+					"pathName": "pages/detailOrder/detailOrder",
+					"query": ""
 				}
 			]
 		}

@@ -10,7 +10,7 @@
   </view>
   <view class="line-css"></view>
   <view class="flex-view-row content">
-    <text class="iconfont icon-yinxingqia state-item" bindtap='checkInitial'>待付款</text>
+    <text class="iconfont icon-yinxingqia state-item" bindtap='checkInitial'>待付款<i></i> </text>
     <text class="iconfont icon-shiyanshaobei2 state-item" bindtap='checkPaid'>待检测</text>
     <text class="iconfont icon-order state-item" bindtap='checkShipped'>已完成</text>
   </view>  

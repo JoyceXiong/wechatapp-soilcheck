@@ -1,7 +1,8 @@
 /* pages/payingOder/payingOder.wxss */
 .payingOder {
   background-color: #f8f8f8;
-  height: 812px;
+  height: 100%;
+  padding-bottom: 50%;
 }
 .contentView {
   display: block;
@@ -68,4 +69,12 @@
 .receive {
   color: #7D7D7D;
   font-size: 14px;
+}
+
+.report {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; 
+  margin: 0 auto ;
 }

@@ -39,6 +39,14 @@
   </view>  
   
 </scroll-view>
+
 <button bindtap='topaytap' class="topaytap" wx:if="{{status=='initial'}}">去支付</button>
 
+<scroll-view class="contentView" wx:if="{{status=='shipped'}}">
+  <view class="flex-view-row tittle">
+    <text class="ordertittle"><text class="verticalLine">|</text> 检测报告</text> 
+  </view>
+  <view class="line-css"></view>
+  <image class="report" mode='aspectFit' src='../../images/report.png' ></image>
+</scroll-view>
 </scroll-view>

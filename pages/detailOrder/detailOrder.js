@@ -20,7 +20,8 @@ Page({
     stromaShow: true,
     receiver: '土壤检测组',
     receivePhone: '15112345678',
-    receiveAddr: '北京市朝阳区时间国际8号楼1510'
+    receiveAddr: '北京市朝阳区时间国际8号楼1510',
+    report: ''
   },
   soilSampleTap: function () {
     wx.navigateTo({
