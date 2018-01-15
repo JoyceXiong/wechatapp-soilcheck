@@ -9,6 +9,7 @@ Page({
    * allExamineItems - 顶级套餐
    */
   data: {
+    typingNum:false,
     scrollHeight:0,
     curIndex: 2,
     subtotal: 2354,
@@ -688,6 +689,12 @@ Page({
     })
   },
 
+  focusHandler:function(){
+    this.setData({ typingNum:true})
+  },
+  blueHandler:function(){
+    this.setData({ typingNum: false })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

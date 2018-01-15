@@ -33,6 +33,8 @@
         <view class="tips">{{tip3}}</view>
       </view>
     </scroll-view>
+    <view class='acover' wx:if="{{typingNum}}">
+    </view>
   </view>
 
   <view class="bottom">
@@ -44,7 +46,7 @@
       
       <!-- 数值 -->
       <view class='c-number'>
-        <input type="number" maxlength="9" bindchange="bindManual" class="count" value='{{count}}'  />
+        <input type="number" maxlength="9" bindfocus="focusHandler" bindblur="blueHandler" bindchange="bindManual" class="count" value='{{count}}'  />
         <!-- 加号 <text  bindtap="bindPlus">+</text>  -->
         <text class='yang-text'>样</text>    
       </view>  
