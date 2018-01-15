@@ -9,6 +9,7 @@ Page({
    * allExamineItems - 顶级套餐
    */
   data: {
+    scrollHeight:0,
     curIndex: 2,
     subtotal: 2354,
     count: 1,
@@ -659,8 +660,32 @@ Page({
     app.globalData.arrSoilitem = this.data.listSoil[this.data.curIndex].map(x => ({ abbr: x.abbr, display: x.display }))
     app.globalData.arrSubstritem = this.data.listSubstrate[this.data.curIndex].map(x => ({ abbr: x.abbr, display: x.display }))
     //this.getCheckItems()
-     
-    
+    //设置scrollView高度
+    this.setScrollViewHeight();
+  },
+
+  setScrollViewHeight(){
+    var self = this;
+    //获取radioGroupButton 高度
+    var query = wx.createSelectorQuery()
+    query.select('.radio-container').boundingClientRect()
+    query.exec(function (res) {
+      var radioGroupHeight = res[0].height
+      //获取buttom 高度
+      var query1 = wx.createSelectorQuery()
+      query1.select('.bottom').boundingClientRect()
+      query1.exec(function (res1) {
+        var bottomHeight = res1[0].height;
+        wx.getSystemInfo({
+          success: function (res2) {
+            //scroll高度 = 窗口高度 - radioGroupButton高度 - buttom高度
+            self.setData({
+              scrollHeight: res2.windowHeight-radioGroupHeight-bottomHeight
+            })
+          }
+        })
+      })
+    })
   },
 
   /**
