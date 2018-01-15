@@ -1,9 +1,10 @@
 <!--pages/home/home.wxml-->
 <scroll-view class="home">
-<image class="head-img" mode="{{item.mode}}" src="{{src.rose}}"></image> 
+<image class="head-img" mode="{{mode}}" src="{{src.rose}}"></image> 
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> {{tittle}}</text> 
+    <!--<text class="tittle"><text class="verticalLine">|</text> {{tittle}}</text> -->
+    <view class="verticalLine"></view> <view class="tittle-content">项目介绍</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -16,7 +17,10 @@
 </scroll-view>
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> 项目内容</text> 
+    <!-- 
+    <text class="tittle"><text class="verticalLine">|</text> 项目内容</text>
+    -->
+    <view class="verticalLine"></view> <view class="tittle-content">项目内容</view>
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -27,7 +31,7 @@
     -评估灌溉用水质量。
     </text>     
   </view>
-  <image class="soil-img" mode="{{item.mode}}" src="{{src.soilItem}}"></image>  
+  <image class="soil-img" mode="{{mode}}" src="{{src.soilItem}}"></image>  
 </scroll-view>
 </scroll-view>
 

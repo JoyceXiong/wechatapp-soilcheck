@@ -1,7 +1,7 @@
 /* pages/payingOder/payingOder.wxss */
 .payingOder {
   background-color: #f8f8f8;
-  height: 100%;
+  height: 700px;
   padding-bottom: 50%;
 }
 .contentView {

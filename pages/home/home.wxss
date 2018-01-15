@@ -18,25 +18,51 @@
 .flex-view-row {
   color: #666;  
   display: flex;
-  margin: 0 10px 0 15px;
+  justify-content: flex-start;
+  margin: 0 10px 0 5px;
   
 }
-.verticalLine {
-  color: #439CD9;
-}
-
 
 .line-css {
     height: 2rpx;
-    background: #F8F8F8;
-    margin: 5rpx 20rpx;
+    background: #E5E5E5;
+    margin: 5rpx 30rpx;
+    opacity:0.5;
 }
+
+.verticalLine {
+  width: 4px;
+  height: 20px;
+  background: #3E9ADB;
+  display: flex;
+  flex-direction: row;
+}
+
 .tittle {
   margin-top:5rpx;
   color: #777;
   font-size: 28rpx;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding:10px;
+}
+.newLine {
+  width: 4px;
+  height: 20px;
+  background: #3E9ADB;
+  display: flex;
+  flex-direction: row;
+}
+.tittle-content {
+  display: flex;
+  flex-direction: row;
+  font-size: 28rpx;  
+  margin-left: 10px;
+  width: 80px;
+  height: 20px;
+  color: #7D7D7D;
 }
 .content {
   display: flex;
@@ -47,11 +73,10 @@
 }
 .soil-img {
   width: 90%;
-  height: 400rpx; 
-  background-color: #eeeeee;
+  height: 500rpx; 
+  background-color: #fff;
   display: flex;
-  flex-direction: row;
-  border-radius: 5px;   
+  flex-direction: row;   
   margin: 0 auto ;
   margin-bottom: 28rpx;
 
@@ -67,8 +92,9 @@
 
 .head-img {
   width: 100%;
-  height: 200rpx; 
+  height: 300rpx; 
   display: flex;
   flex-direction: row;
   margin: 0 auto ;
 }
+
