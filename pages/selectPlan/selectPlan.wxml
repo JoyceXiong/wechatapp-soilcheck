@@ -1,51 +1,68 @@
 <!--pages/selectPlan/selectPlan.wxml-->
-
-<scroll-view class="scrollView" scroll-y="true"  scroll-top='0'>
-  <radio-group class="radio-group" bindchange="radioChange">
-    <label class="radio" wx:for="{{items}}" wx:key="id">
-      <radio value="{{item.id}}" checked="{{item.checked}}"/>{{item.name}}
-    </label>
-  </radio-group>
-  <view class="serveName"><text class="verticalLine">|</text> 土壤种植检测</view>
-  <checkbox-group class="checkbox-group" bindchange="checkboxChangeSoil">
-    <label class="checkbox" wx:for="{{showSoil}}" wx:key="display">
-      <text class="item-name">{{item.display}}</text>
-      <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}'/>
-      <text class="item-price">￥{{item.price}}</text>
-           
-    </label>
-  </checkbox-group>
-  <view class="serveName"><text class="verticalLine">|</text> 基质种植检测</view>
-  <checkbox-group class="checkbox-group" bindchange="checkboxChangeSubstrate">
-    <label class="checkbox" wx:for="{{showStroma}}" wx:key="display">
-      <text class="item-name">{{item.display}}</text>
-      <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}' />
-      <text class="item-price">￥{{item.price}}</text>      
-    </label>
-  </checkbox-group>
-  <view class="tipView">
-    <view class="tips">{{tip1}}</view>
-    <view class="tips">{{tip2}}</view>
-    <view class="tips">{{tip3}}</view>
+<view class='root'>
+  <view class='radio-container'>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{items}}" wx:key="id">
+        <radio value="{{item.id}}" checked="{{item.checked}}"/>{{item.name}}
+      </label>
+    </radio-group>
   </view>
-</scroll-view>
-
-<view class="bottom">
-  <view class="btm-item">小计：{{subtotal}}元 × 
-    <!-- 减号 <text class="minus" bindtap="bindMinus">-</text>-->
+  <view class='select-container'>
+    <scroll-view class="scrollView" scroll-y="true" scroll-with-animation='{{true}}' style="height: {{scrollHeight}}px;"  scroll-top='0'>
     
-    <!-- 数值 -->
-    <input type="number" maxlength="9" bindchange="bindManual" class="count" value='{{count}}'  />
-    <!-- 加号 <text  bindtap="bindPlus">+</text>  -->
-   样      
+      <view class="serveName"><text class="verticalLine">|</text> 土壤种植检测</view>
+      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSoil">
+        <label class="checkbox" wx:for="{{showSoil}}" wx:key="display">
+          <text class="item-name">{{item.display}}</text>
+          <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}'/>
+          <text class="item-price">￥{{item.price}}</text>
+              
+        </label>
+      </checkbox-group>
+      <view class="serveName"><text class="verticalLine">|</text> 基质种植检测</view>
+      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSubstrate">
+        <label class="checkbox" wx:for="{{showStroma}}" wx:key="display">
+          <text class="item-name">{{item.display}}</text>
+          <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}' />
+          <text class="item-price">￥{{item.price}}</text>      
+        </label>
+      </checkbox-group>
+      <view class="tipView">
+        <view class="tips">{{tip1}}</view>
+        <view class="tips">{{tip2}}</view>
+        <view class="tips">{{tip3}}</view>
+      </view>
+    </scroll-view>
   </view>
-  <view class="btm-item">合计：
-    <text class="plan" wx:if="{{condition == 0}}">(任意套餐9折)</text>
-    <text class="plan" wx:elif="{{condition == 1}}">(超过10个土样8折)</text>
-    <text class="plan" wx:elif="{{condition == 2}}">(检测指标低于2项加收20元/样)</text>
-    <text class="finalTotal" >￥{{finalTotal}} </text>
+
+  <view class="bottom">
+    <view class="btm-item">
+      <view>
+        <text>小计：{{subtotal}}元 × </text>
+      </view>
+      <!-- 减号 <text class="minus" bindtap="bindMinus">-</text>-->
+      
+      <!-- 数值 -->
+      <view class='c-number'>
+        <input type="number" maxlength="9" bindchange="bindManual" class="count" value='{{count}}'  />
+        <!-- 加号 <text  bindtap="bindPlus">+</text>  -->
+        <text class='yang-text'>样</text>    
+      </view>  
+    </view>
+    <view class="btm-item">
+      <view>
+        <text>合计：</text>
+      </view>
+      <view class='number-tt-container'>
+        <text class="plan" wx:if="{{condition == 0}}">(任意套餐9折)</text>
+        <text class="plan" wx:elif="{{condition == 1}}">(超过10个土样8折)</text>
+        <text class="plan" wx:elif="{{condition == 2}}">(检测指标低于2项加收20元/样)</text>
+        <text class="finalTotal" >￥{{finalTotal}} </text>
+      </view>
+    </view>
+    <button class="okBtn" bindtap='okCheckTap'>选好了</button>
   </view>
-  <button class="okBtn" bindtap='okCheckTap'>选好了</button>
 </view>
+
 
 
