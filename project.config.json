@@ -64,6 +64,12 @@
 					"name": "detailOrder",
 					"pathName": "pages/detailOrder/detailOrder",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "selectPlan",
+					"pathName": "pages/selectPlan/selectPlan",
+					"query": ""
 				}
 			]
 		}

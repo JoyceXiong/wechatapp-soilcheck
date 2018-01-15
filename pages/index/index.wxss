@@ -4,9 +4,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 400rpx 0;
+  padding: 200rpx 0;
   box-sizing: border-box;
   background: url(http://7xn3gg.com1.z0.glb.clouddn.com/bg123.jpg) no-repeat;
+  height: 744px;
+  min-height: 500px;
 }
 .userinfo {
   margin-top: 100rpx;
@@ -31,9 +33,14 @@
   text-align: center;
   color: #fff;
 }
-
+.user-motto {
+  margin-top: 30rpx;
+}
 .login {
   background-color: #439CD9;
   color: #fff;
-  font-size:28rpx;
+  font-size:30rpx;
+  width: 280px;
+  margin-top: 150px;
+  margin-bottom: 100px;
 }

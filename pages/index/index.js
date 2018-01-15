@@ -9,8 +9,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     src: '../../images/logo.png',
-    mode: 'aspectFit',
-    srcBg: '../../images/bg.png'
+    mode: 'aspectFit'
   },
   //事件处理函数
   bindViewTap: function() {
