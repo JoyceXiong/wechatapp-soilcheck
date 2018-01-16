@@ -171,18 +171,18 @@ Page({
         // success
         console.log("到支付success这里:", res)
         console.log("微信支付suceescc-currentPages:",getCurrentPages())
-        wx.showToast({
-          title: '支付成功',
-          icon: 'success',
-          duration: 1500
-        })
+        // wx.showToast({
+        //   title: '支付成功',
+        //   icon: 'success',
+        //   duration: 1500
+        // })
         wx.switchTab({
           url: '../myInfo/myInfo',
-          complete: function () {
-            wx.navigateTo({
-              url: '../detailOrder/detailOrder',
-            })
-          },
+          // complete: function () {
+          //   wx.navigateTo({
+          //     url: '../detailOrder/detailOrder',
+          //   })
+          // },
           fail: function () {
             console.log("跳转失败！")
           }
@@ -195,11 +195,11 @@ Page({
         console.log("到支付fail这里:", res)
         wx.switchTab({
           url: '../myInfo/myInfo',
-          success: function () {
-            wx.navigateTo({
-              url: '../detailOrder/detailOrder',
-            })
-          }
+          // success: function () {
+          //   wx.navigateTo({
+          //     url: '../detailOrder/detailOrder',
+          //   })
+          // }
         })
       },
       complete: function () {

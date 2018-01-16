@@ -18,9 +18,9 @@ Page({
   },
   navitoDetail: function (e) {
     console.log("navitoDetail:",e)
-    app.globalData.orderid = e.currentTarget.dataset.num
+    // app.globalData.orderid = e.currentTarget.dataset.num
     wx.navigateTo({
-      url: '../detailOrder/detailOrder',
+      url: '../detailOrder/detailOrder?orderid=' + e.currentTarget.dataset.num,
     })
   },
   // 获取全部订单信息
