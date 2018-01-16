@@ -83,17 +83,20 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        app.globalData.openid = res.data.data.open_id
-        app.globalData.token = res.data.data.token
-        var token = res.data.data.token
-        var openid = res.data.data.open_id
-        console.log("openid:", openid)
-        console.log("token:", token)
-        wx.switchTab({
-          url: '../home/home'
-        })
+        if (res.data){
+          app.globalData.openid = res.data.data.open_id
+          app.globalData.token = res.data.data.token
+          var token = res.data.data.token
+          var openid = res.data.data.open_id
+          console.log("openid:", openid)
+          console.log("token:", token)
+          wx.switchTab({
+            url: '../home/home'
+          })
+        } else {
+          console.log("getToken请求失败：",res.data)
+        }       
       }
-
     })
   },
   getUserInfo: function(e) {
@@ -110,6 +113,7 @@ Page({
       })
     } else {
       //授权失败
+      console.log("获取token失败")
       return
     }
          

@@ -2,7 +2,7 @@
 <scroll-view class="payingOder">
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="ordertittle"><text class="verticalLine">|</text> 订单信息</text> 
+    <view class="verticalLine">|</view> <view class="ordertittle">订单信息</view> 
     <text class="orderState" style='color:orange' wx:if="{{status == 'initial'}}">待付款</text>
     <text class="orderState" style='color:#1296db' wx:elif="{{status == 'paid'}}">待检测</text>
     <text class="orderState" style='color:#ccc' wx:elif="{{status == 'expired'}}">已过期</text>
@@ -25,17 +25,17 @@
 
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="ordertittle"><text class="verticalLine">|</text> 收货地址</text> 
+    <view class="verticalLine">|</view> <view class="ordertittle"> 收货地址</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
-    <text decode="{{true}}" space="{{true}}">姓&emsp;名：</text> {{name}}
+    <text decode="{{true}}" space="{{true}}">姓&ensp;&ensp;名：</text> {{name}}
   </view> 
   <view class="flex-view-row content">
     <text decode="{{true}}" space="{{true}}">手机号：</text>{{phone}}
   </view> 
   <view class="flex-view-row content">
-    <text decode="{{true}}" space="{{true}}">地&emsp;址：</text>{{address}}
+    <text decode="{{true}}" space="{{true}}">地&ensp;&ensp;址：</text>{{address}}
   </view>  
   
 </scroll-view>

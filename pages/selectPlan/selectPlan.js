@@ -19,6 +19,8 @@ Page({
     condition: 0, // 优惠条件
     discount1: 0.9, // 优惠折扣，任意套餐9折
     discount2: 0.8, // 优惠折扣，检查样数多余10样（含10样）8折
+    isPlan: 'C',
+    plan: true,
     items: [
       { id: 0, name: '基础套餐'},
       { id: 1, name: '豪华套餐' },
@@ -211,6 +213,18 @@ Page({
     var arr2 = this.data.listSubstrate[index] // 拿到基础套餐土壤基质检测项目
     var arr = arr1.concat(arr2) 
     var arrPrice = arr.map(x=>x.price).reduce((s,v)=>s+v,0)
+    var plan = ''
+    switch(index){
+      case '0':
+        plan = 'A'
+        break
+      case '1':
+        plan = 'B'
+        break
+      case '2':
+        plan = 'C'
+        break
+    }
     this.setData({
       curIndex: e.detail.value,
       subtotal: arrPrice ,
@@ -219,8 +233,11 @@ Page({
       isChecked: true,
       condition: 0,
       discount1: 0.9,
-      discount2: 0.8
+      discount2: 0.8,
+      isPlan: plan
     })
+    console.log("curIndex:", index)
+    console.log("isPlan:", this.data.isPlan)
     console.log("arr:", arr)
     app.globalData.arrSoilitem = arr1.map(x => ({ abbr: x.abbr,display:x.display}))
     app.globalData.arrSubstritem = arr2.map(x => ({ abbr: x.abbr, display: x.display }))
@@ -319,6 +336,7 @@ Page({
     
 
     var isPlan = (isPlanA || isPlanB || isPlanC)
+    this.setData({ plan: isPlan })
     console.log("isPlan:", isPlan)
     // 如果所选检测项目完全符合套餐项目，打9折 ；
     if (isPlan){
@@ -347,9 +365,9 @@ Page({
       // this.setData({ discount1: 0.9, condition: 0})
       var tmpCondition = (this.data.count < 10 ? 0 : 1)
       var discount = (this.data.count < 10 ? this.data.discount1 : this.data.discount2)
-      if (isPlanA) { this.setData({ 'items[0].checked': 'true' }) }
-      if (isPlanB) { this.setData({ 'items[1].checked': 'true' }) }
-      if (isPlanC) { this.setData({ 'items[2].checked': 'true' }) }
+      if (isPlanA) { this.setData({ 'items[0].checked': 'true', isPlan: 'A' }) }
+      if (isPlanB) { this.setData({ 'items[1].checked': 'true', isPlan: 'B' }) }
+      if (isPlanC) { this.setData({ 'items[2].checked': 'true', isPlan: 'C' }) }
       this.setData({ subtotal: arrSoiltotal, finalTotal: (arrSoiltotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
     } 
     // 项目数不等于当前套餐，但又不完全符合任意套餐所含明细，不打折；    
@@ -485,10 +503,12 @@ Page({
     console.log("jz-isPlanC:", isPlanC)
     // 判断当前选项，属于某一套餐
     var isPlan = (isPlanA || isPlanB || isPlanC)
+    this.setData({ plan:isPlan })
     console.log("jz-isPlan:", isPlan)
     var curindex = this.data.curIndex
     if (isPlan) { // 套餐，打9折
       // this.setData({ discount1: 0.9, condition: 0 })
+      
       if (app.globalData.arrSoiltotal >= 0) {
         if (curindex == 0) {
           arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
@@ -513,9 +533,9 @@ Page({
 
       var tmpCondition = (this.data.count < 10 ? 0 : 1)
       var discount = (this.data.count < 10 ? this.data.discount1 : this.data.discount2) 
-      if (isPlanA) { this.setData({ 'items[0].checked': 'true' }) }
-      if (isPlanB) { this.setData({ 'items[1].checked': 'true' }) }
-      if (isPlanC) { this.setData({ 'items[2].checked': 'true' }) }
+      if (isPlanA) { this.setData({ 'items[0].checked': 'true', isPlan: 'A'}) }
+      if (isPlanB) { this.setData({ 'items[1].checked': 'true', isPlan: 'B'}) }
+      if (isPlanC) { this.setData({ 'items[2].checked': 'true', isPlan: 'C'}) }
       this.setData({ subtotal: arrSubstrtotal, finalTotal: (arrSubstrtotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
     } else if (arrSubstritem.concat(app.globalData.arrSoilitem).length < this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length && arrSubstritem.concat(app.globalData.arrSoilitem).length > 2 || (arrSubstritem.concat(app.globalData.arrSoilitem).length >= this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length && isPlan == false)) {
        
@@ -615,14 +635,37 @@ Page({
     this.setData({ count: e.detail.value == 0 ? 1 : e.detail.value})
     var c = this.data.count
     var ft = this.data.finalTotal
+    var condition = this.data.condition
+    var plan = this.data.plan
+    console.log("bindManual-condition:", condition)
+    console.log("bindManual-isPlan:", this.data.isPlan)
+    console.log("bindManual-plan:", plan)
     if (c < 10) {
-      this.setData({ condition: 0 })
-      ft = (this.data.subtotal * c * this.data.discount1).toFixed(1)
+      //this.setData({ condition: 3 })
+      //ft = (this.data.subtotal * c ).toFixed(1)
+      if (plan){
+        switch (this.data.isPlan) {
+          case 'A':
+            ft = (831.6 * c ).toFixed(1)
+            break
+          case 'B':
+            ft = (1605.6 * c ).toFixed(1)
+            break
+          case 'C':
+            ft = (2118.6 * c ).toFixed(1)
+            break
+        }
+        this.setData({ condition: 0 })
+      }else{
+        ft = (this.data.subtotal * c).toFixed(1)
+        this.setData({ condition: 3 })
+      }
+      
     } else {
       this.setData({ condition: 1 })
       ft = (this.data.subtotal * c * this.data.discount2).toFixed(1)
     }
-    this.setData({ finalTotal: ft < this.data.subtotal ? (this.data.subtotal * this.data.discount1).toFixed(1) : ft }) 
+    this.setData({ finalTotal: ft  }) 
   },
   okCheckTap: function () {
     app.globalData.count = this.data.count

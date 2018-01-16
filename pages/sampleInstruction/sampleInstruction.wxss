@@ -20,23 +20,31 @@
   
 }
 .verticalLine {
-  color: #439CD9;
+  width: 4px;
+  height: 20px;
+  background: #3E9ADB;
+  display: flex;
+  flex-direction: row;
 }
 
 .verticalLine {
   color: #1296db;
+  margin-right: 10px;
 }
 .line-css {
     height: 1px;
-    background: #ddd;
-    margin: 5rpx 20rpx;
+    background: #E5E5E5;
+    margin: 5rpx 30rpx;
 }
 .tittle {
   color: #7D7D7D;
   font-size: 28rpx;
   display: flex;
-  flex-direction: column; 
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   margin: 5rpx 0 5rpx 15rpx;
+  padding: 10px;
 }
 .content {
   color: #ADADAD;

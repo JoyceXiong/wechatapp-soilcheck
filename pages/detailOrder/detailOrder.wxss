@@ -24,7 +24,11 @@
   
 }
 .verticalLine {
-  color: #439CD9;
+  width: 4px;
+  height: 20px;
+  background: #3E9ADB;
+  display: flex;
+  flex-direction: row;
 }
 .topaytap {
   background-color: #439CD9;
@@ -35,7 +39,7 @@
 .line-css {
     height: 1px;
     background: #ddd;
-    margin: 5rpx 20rpx;
+    margin: 5rpx 25rpx;
 }
 .tittle {
   color: #7D7D7D;
@@ -49,6 +53,7 @@
 .ordertittle {
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
 .orderState {
   flex-direction: row;

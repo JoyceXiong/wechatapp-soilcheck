@@ -2,7 +2,7 @@
 <scroll-view class="sampleInstruction">
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> 采样说明</text> 
+    <view class="verticalLine"></view> <view >采样说明</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -14,7 +14,7 @@
 </scroll-view>
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> 采样数量</text> 
+    <view class="verticalLine"></view> <view>采样数量</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -25,7 +25,7 @@
 </scroll-view>
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> 采样方法</text> 
+    <view class="verticalLine"></view> <view>采样方法</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -37,7 +37,7 @@
 </scroll-view>
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <text class="tittle"><text class="verticalLine">|</text> 采样寄送</text> 
+    <view class="verticalLine"></view> <view>采样寄送</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">

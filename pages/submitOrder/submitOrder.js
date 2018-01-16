@@ -178,10 +178,13 @@ Page({
         })
         wx.switchTab({
           url: '../myInfo/myInfo',
-          success: function () {
+          complete: function () {
             wx.navigateTo({
               url: '../detailOrder/detailOrder',
             })
+          },
+          fail: function () {
+            console.log("跳转失败！")
           }
         })
         
