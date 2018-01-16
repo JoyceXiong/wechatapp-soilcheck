@@ -65,10 +65,12 @@
 }
 .img {
   margin-top:120px;
+  width: 128px;
+  height: 128px;
 }
 .nodata  {
   color:#ADADAD;
-  font-size:12px;
+  font-size:14px;
   display:block;
   text-align: center;
   margin-top:20px;

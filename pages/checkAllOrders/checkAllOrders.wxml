@@ -64,7 +64,9 @@
   </view>
 </view>
 <view class="imgview" wx:if="{{isShow}}"> 
+  
   <image class="img" src="../../images/nodata.png" mode="aspectFit" ></image>
+  
   <view class="nodata">暂无数据</view>
 </view>
 

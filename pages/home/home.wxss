@@ -26,8 +26,7 @@
 .line-css {
     height: 2rpx;
     background: #E5E5E5;
-    margin: 5rpx 30rpx;
-    opacity:0.5;
+    margin: 5rpx 25rpx;
 }
 
 .verticalLine {
