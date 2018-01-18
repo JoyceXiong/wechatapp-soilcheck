@@ -83,7 +83,7 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        if (res.data){
+        if (res.data.status =='100'){
           app.globalData.openid = res.data.data.open_id
           app.globalData.token = res.data.data.token
           var token = res.data.data.token
@@ -95,6 +95,16 @@ Page({
           })
         } else {
           console.log("getToken请求失败：",res.data)
+          wx.showModal({
+            title: '提示',
+            content: '登录失败，请检查你的网络，重新启动小程序',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              }
+            }
+          })
+          return
         }       
       }
     })
