@@ -2,7 +2,7 @@
 <scroll-view class="payingOder">
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <view class="verticalLine">|</view> <view class="ordertittle">订单信息</view> 
+    <view class="verticalLine"></view> <view class="ordertittle">订单信息</view> 
     <text class="orderState" style='color:orange' wx:if="{{status == 'initial'}}">待付款</text>
     <text class="orderState" style='color:#1296db' wx:elif="{{status == 'paid'}}">待检测</text>
     <text class="orderState" style='color:#ccc' wx:elif="{{status == 'expired'}}">已过期</text>
@@ -25,7 +25,7 @@
 
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">
-    <view class="verticalLine">|</view> <view class="ordertittle"> 收货地址</view> 
+    <view class="verticalLine"></view> <view class="ordertittle"> 收货地址</view> 
   </view>
   <view class="line-css"></view>  
   <view class="flex-view-row content">
@@ -44,7 +44,7 @@
 
 <scroll-view class="contentView" wx:if="{{status=='shipped'}}">
   <view class="flex-view-row tittle">
-    <text class="ordertittle"><text class="verticalLine">|</text> 检测报告</text> 
+    <text class="ordertittle"><text class="verticalLine"></text> 检测报告</text> 
   </view>
   <view class="line-css"></view>
   <image class="report" mode='aspectFit' src='../../images/report.png' ></image>

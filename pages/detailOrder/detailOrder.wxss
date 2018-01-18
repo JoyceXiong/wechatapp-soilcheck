@@ -38,7 +38,7 @@
 }
 .line-css {
     height: 1px;
-    background: #ddd;
+    background: #E5E5E5;
     margin: 5rpx 25rpx;
 }
 .tittle {

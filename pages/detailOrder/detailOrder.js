@@ -29,7 +29,7 @@ Page({
     })
   },
   topaytap: function () {
-    console.log("topay-app.globalData.orderid:", this.orderid)
+    console.log("topay-app.globalData.orderid:", this.data.orderid)
     console.log("app.globalData.openid:", app.globalData.openid)
     console.log("app.globalData.total:", app.globalData.finalTotal)
     console.log("app.globalData.token:", app.globalData.token)
@@ -43,7 +43,7 @@ Page({
         "path": "/portal/wxpay/getBrandWCPayRequestParams",
         "data": {
           "total_fee": 1,
-          "orderid": this.orderid,
+          "orderid": this.data.orderid,
           "openid": app.globalData.openid          
         }
       },
@@ -117,6 +117,7 @@ Page({
       fail: function (res) {
         // fail
         console.log("error:",res)
+
       },
       complete: function () {
         // complete
@@ -128,8 +129,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.orderid = app.globalData.orderid;
-    console.log("onload-app.globalData.orderid:", options.orderid)
+    this.data.orderid = app.globalData.orderid;
+    console.log("onload-options:", options)
+    //console.log("onload-options.orderid:", options.orderid)
+    console.log("onload-app.globalData.orderid:", app.globalData.orderid)
+
+    console.log("onload-this.data.orderid:", this.data.orderid)
     var self = this 
     // 获取订单详情
     wx.request({
@@ -139,7 +144,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ orderInfo(id:\"" + options.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
+          "query": "{ orderInfo(id:\"" + app.globalData.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
         }
       },
       method: "POST",
@@ -169,7 +174,7 @@ Page({
           phone: res.data.data.orderInfo.recipient.mobile,
           address: res.data.data.orderInfo.recipient.address,
           orderTime: new Date(res.data.data.orderInfo.ctime).toLocaleString(),
-          orderid: options.orderid
+          orderid: app.globalData.orderid
           
         })
       }

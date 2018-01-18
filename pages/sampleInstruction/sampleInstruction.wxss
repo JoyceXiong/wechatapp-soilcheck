@@ -34,7 +34,7 @@
 .line-css {
     height: 1px;
     background: #E5E5E5;
-    margin: 5rpx 30rpx;
+    margin: 5rpx 25rpx;
 }
 .tittle {
   color: #7D7D7D;

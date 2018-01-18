@@ -18,7 +18,7 @@ Page({
   },
   navitoDetail: function (e) {
     console.log("navitoDetail:",e)
-    // app.globalData.orderid = e.currentTarget.dataset.num
+    app.globalData.orderid = e.currentTarget.dataset.num
     wx.navigateTo({
       url: '../detailOrder/detailOrder?orderid=' + e.currentTarget.dataset.num,
     })
@@ -61,7 +61,6 @@ Page({
           ))
           self.setData({
             allorders: tmparr,
-            showorders: tmparr,
             isShow: false
           })
           switch(app.globalData.payCode){
@@ -152,6 +151,7 @@ Page({
     this.setData({
       _num: e.target.dataset.num
     })
+    app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0){
       this.setData({
@@ -165,6 +165,7 @@ Page({
     this.setData({
       _num: e.target.dataset.num
     })
+    app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0) {
       arrOrders = arrOrders.filter(x => x.status == 'initial')
@@ -187,6 +188,7 @@ Page({
     this.setData({
       _num: e.target.dataset.num
     })
+    app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0) {
       arrOrders = arrOrders.filter(x => x.status == 'paid')
@@ -210,12 +212,14 @@ Page({
     this.setData({
       _num: e.target.dataset.num
     })
+    app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0) {
       arrOrders = arrOrders.filter(x => x.status == 'shipped')
       if (arrOrders.length > 0) {
-        isShow: false,
+        
         this.setData({
+          isShow: false,
           showorders: arrOrders
         })
       } else {
@@ -231,12 +235,14 @@ Page({
     this.setData({
       _num: e.target.dataset.num
     })
+    app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0){
       arrOrders = arrOrders.filter(x => x.status == 'canceled')
       if (arrOrders.length > 0) {
-        isShow: false,
+        
         this.setData({
+          isShow: false,
           showorders: arrOrders
         })
       } else {
@@ -269,7 +275,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    this.getAllOrders()
   },
 
   /**
@@ -295,6 +301,42 @@ Page({
       title: '玩命加载中。。。',
     })
     this.getAllOrders()
+    // 
+    var arrOrders = this.data.allorders
+    if (arrOrders.length > 0) {
+      switch(app.globalData.payCode){
+        case '1':
+          break
+        case '2':
+          arrOrders = arrOrders.filter(x => x.status == 'initial')
+          break
+        case '3':
+          arrOrders = arrOrders.filter(x => x.status == 'paid')
+          break
+        case '4':
+          arrOrders = arrOrders.filter(x => x.status == 'shipped')
+          break
+        case '5':
+          arrOrders = arrOrders.filter(x => x.status == 'canceled')
+          break
+      }
+      if (arrOrders.length > 0) {
+        
+          this.setData({
+            isShow: false,
+            showorders: arrOrders
+          })
+      } else {
+        console.log("arrOrders:", arrOrders)
+        this.setData({
+          isShow: true,
+          showorders: arrOrders
+        })
+        console.log("isShow:",this.data.isShow)
+      }
+    } 
+    //
+
     setTimeout(function () {
       // complete
       wx.hideNavigationBarLoading() //完成停止加载
