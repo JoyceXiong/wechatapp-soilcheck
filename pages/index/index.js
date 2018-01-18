@@ -54,6 +54,13 @@ Page({
       })
     }    
   },
+  onShow() {
+    if (app.globalData.userInfo) {
+      wx.switchTab({
+        url: '../home/home'
+      })
+    }
+  },
   getToken(){
     wx.request({
       url: 'https://api-dev.daqiuyin.com/api',
