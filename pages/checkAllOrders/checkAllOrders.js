@@ -6,6 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    scrollTop: 0,  
+    scrollHeight:0,
     allorders: {},
     showorders: {},
     _num:1,
@@ -17,18 +19,15 @@ Page({
 
   },
   navitoDetail: function (e) {
-    console.log("navitoDetail:",e)
-    app.globalData.orderid = e.currentTarget.dataset.num
+    // app.globalData.orderid = e.currentTarget.dataset.num
     wx.navigateTo({
       url: '../detailOrder/detailOrder?orderid=' + e.currentTarget.dataset.num,
     })
   },
   // 获取全部订单信息
-  getAllOrders () {
-    console.log("app.globalData.payCode:", app.globalData.payCode)
+  getAllOrders (cb) {
     const self = this
     self.setData({ _num: app.globalData.payCode})
-    console.log("app.globalData.token:", app.globalData.token)
     wx.request({
       url: 'https://api-dev.daqiuyin.com/api',
       data: {
@@ -45,7 +44,6 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        console.log(res.data)
         if (res.data.data.myOrders && res.data.data.myOrders.length>0){
           var arr = res.data.data.myOrders
           var tmparr = arr.map(x => ({
@@ -63,93 +61,100 @@ Page({
             allorders: tmparr,
             isShow: false
           })
-          switch(app.globalData.payCode){
-            case 1:
-              console.log("paycode:", app.globalData.payCode)
-              if (tmparr.length > 0){
-                self.setData({
-                  showorders: tmparr,
-                  isShow: false
-                })
-              }else {
-                self.setData({
-                  showorders: arrInitail,
-                  isShow: true
-                })
-              }
-              break
-            case 2:
-              console.log("paycode:", app.globalData.payCode)
-              var arrInitail = tmparr.filter(x => x.status == 'initial')
-              if (arrInitail.length > 0) {
-                self.setData({
-                  showorders: arrInitail,
-                  isShow: false
-                })
-              } else {
-                self.setData({
-                  showorders: arrInitail,
-                  isShow: true
-                })
-              }
-              break
-            case 3:
-              console.log("paycode:", app.globalData.payCode)
-              var arrPaid = tmparr.filter(x => x.status == 'paid')
-              if (arrPaid.length > 0) {
-                self.setData({
-                  showorders: arrPaid,
-                  isShow: false
-                })
-              } else {
-                self.setData({
-                  showorders: arrPaid,
-                  isShow: true
-                })
-              }
-              break
-            case 4:
-              console.log("paycode:", app.globalData.payCode)
-              var arrShipped = tmparr.filter(x => x.status == 'shipped')
-              if (arrShipped.length > 0) {
-                self.setData({
-                  showorders: arrShipped,
-                  isShow: false
-                })
-              } else {
-                self.setData({
-                  showorders: arrShipped,
-                  isShow: true
-                })
-              }
-              break
-            case 5: 
-              console.log("paycode:", app.globalData.payCode)
-              var arrCanceled = tmparr.filter(x => x.status == 'canceled')
-              if (arrCanceled.length > 0) {
-                self.setData({
-                  showorders: arrCanceled,
-                  isShow: false
-                })
-              } else {
-                self.setData({
-                  showorders: arrCanceled,
-                  isShow: true
-                })
-              }
-              break
-          }
+          // switch(app.globalData.payCode){
+          //   case 1:
+          //     if (tmparr.length > 0){
+          //       self.setData({
+          //         showorders: tmparr,
+          //         isShow: false
+          //       })
+          //     }else {
+          //       self.setData({
+          //         showorders: arrInitail,
+          //         isShow: true
+          //       })
+          //     }
+          //     break
+          //   case 2:
+          //     var arrInitail = tmparr.filter(x => x.status == 'initial')
+          //     if (arrInitail.length > 0) {
+          //       self.setData({
+          //         showorders: arrInitail,
+          //         isShow: false
+          //       })
+          //     } else {
+          //       self.setData({
+          //         showorders: arrInitail,
+          //         isShow: true
+          //       })
+          //     }
+          //     break
+          //   case 3:
+          //     var arrPaid = tmparr.filter(x => x.status == 'paid')
+          //     if (arrPaid.length > 0) {
+          //       self.setData({
+          //         showorders: arrPaid,
+          //         isShow: false
+          //       })
+          //     } else {
+          //       self.setData({
+          //         showorders: arrPaid,
+          //         isShow: true
+          //       })
+          //     }
+          //     break
+          //   case 4:
+          //     var arrShipped = tmparr.filter(x => x.status == 'shipped')
+          //     if (arrShipped.length > 0) {
+          //       self.setData({
+          //         showorders: arrShipped,
+          //         isShow: false
+          //       })
+          //     } else {
+          //       self.setData({
+          //         showorders: arrShipped,
+          //         isShow: true
+          //       })
+          //     }
+          //     break
+          //   case 5: 
+          //     var arrCanceled = tmparr.filter(x => x.status == 'canceled')
+          //     if (arrCanceled.length > 0) {
+          //       self.setData({
+          //         showorders: arrCanceled,
+          //         isShow: false
+          //       })
+          //     } else {
+          //       self.setData({
+          //         showorders: arrCanceled,
+          //         isShow: true
+          //       })
+          //     }
+          //     break
+          // }
 
         }else {
           self.setData({isShow:true})
         }
         
+      },
+      complete:function(){
+        if (self.isLoading){
+          // wx.hideNavigationBarLoading() //完成停止加载
+          wx.stopPullDownRefresh() //停止下拉刷新
+          // wx.hideLoading()
+          self.isLoading = false;
+        }
+        if (cb){
+          cb();
+        }
       }
     })
   },
   showAll: function (e) {
     this.setData({
-      _num: e.target.dataset.num
+      _num: e.target.dataset.num,
+      showorders:[]
     })
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
@@ -163,7 +168,8 @@ Page({
   },
   showPaying: function (e) {
     this.setData({
-      _num: e.target.dataset.num
+      _num: e.target.dataset.num,
+      showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
@@ -175,7 +181,6 @@ Page({
           showorders: arrOrders
         })
       } else {
-        console.log(arrOrders.length)
         this.setData({
           isShow: true,
           showorders: arrOrders
@@ -186,13 +191,13 @@ Page({
   },
   showchecking: function (e) {
     this.setData({
-      _num: e.target.dataset.num
+      _num: e.target.dataset.num,
+      showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0) {
       arrOrders = arrOrders.filter(x => x.status == 'paid')
-      console.log("paidArr:",arrOrders)
       if (arrOrders.length > 0) {
         isShow: false,
         this.setData({
@@ -210,7 +215,8 @@ Page({
   },
   showFinished: function  (e) {
     this.setData({
-      _num: e.target.dataset.num
+      _num: e.target.dataset.num,
+      showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
@@ -233,7 +239,8 @@ Page({
   },
   showClosed: function (e) {
     this.setData({
-      _num: e.target.dataset.num
+      _num: e.target.dataset.num,
+      showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
@@ -259,11 +266,29 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getAllOrders() 
-     
-    
+    this.isLoading = false;
+    // this.setScrollViewHeight();
+    // this.getAllOrders() 
   },
 
+  setScrollViewHeight() {
+    var self = this;
+    //获取header 高度
+    var query = wx.createSelectorQuery()
+    query.select('.header').boundingClientRect()
+    query.exec(function (res) {
+      var headerHeight = res[0].height
+      
+      wx.getSystemInfo({
+        success: function (res2) {
+          //scroll高度
+          self.setData({
+            scrollHeight: res2.windowHeight - headerHeight
+          })
+        }
+      })
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -275,7 +300,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getAllOrders()
+    this.refreshData()
   },
 
   /**
@@ -296,53 +321,63 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    wx.showNavigationBarLoading() //在标题栏中显示加载
-    wx.showLoading({
-      title: '玩命加载中。。。',
-    })
-    this.getAllOrders()
+    
+
+    this.refreshData();
     // 
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0) {
-      switch(app.globalData.payCode){
-        case '1':
-          break
-        case '2':
-          arrOrders = arrOrders.filter(x => x.status == 'initial')
-          break
-        case '3':
-          arrOrders = arrOrders.filter(x => x.status == 'paid')
-          break
-        case '4':
-          arrOrders = arrOrders.filter(x => x.status == 'shipped')
-          break
-        case '5':
-          arrOrders = arrOrders.filter(x => x.status == 'canceled')
-          break
-      }
+    
+    //
+
+    // setTimeout(function () {
+    //   // complete
+    //   wx.hideNavigationBarLoading() //完成停止加载
+    //   wx.stopPullDownRefresh() //停止下拉刷新
+    //   wx.hideLoading()
+    // }, 1500);
+  },
+
+  refreshData:function(){
+
+    var self = this;
+    
+    this.isLoading = true;
+    // wx.showNavigationBarLoading() //在标题栏中显示加载
+    // wx.showLoading({
+    //   title: '加载中...',
+    // })
+    this.getAllOrders(function () {
+      var arrOrders = self.data.allorders
       if (arrOrders.length > 0) {
-        
-          this.setData({
+        switch (app.globalData.payCode+'') {
+          case '1':
+            break
+          case '2':
+            arrOrders = arrOrders.filter(x => x.status == 'initial')
+            break
+          case '3':
+            arrOrders = arrOrders.filter(x => x.status == 'paid')
+            break
+          case '4':
+            arrOrders = arrOrders.filter(x => x.status == 'shipped')
+            break
+          case '5':
+            arrOrders = arrOrders.filter(x => x.status == 'canceled')
+            break
+        }
+        if (arrOrders.length > 0) {
+
+          self.setData({
             isShow: false,
             showorders: arrOrders
           })
-      } else {
-        console.log("arrOrders:", arrOrders)
-        this.setData({
-          isShow: true,
-          showorders: arrOrders
-        })
-        console.log("isShow:",this.data.isShow)
+        } else {
+          self.setData({
+            isShow: true,
+            showorders: arrOrders
+          })
+        }
       }
-    } 
-    //
-
-    setTimeout(function () {
-      // complete
-      wx.hideNavigationBarLoading() //完成停止加载
-      wx.stopPullDownRefresh() //停止下拉刷新
-      wx.hideLoading()
-    }, 1500);
+    });
   },
 
   /**

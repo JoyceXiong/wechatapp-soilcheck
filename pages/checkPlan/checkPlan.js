@@ -22,9 +22,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log("appcount:",app.globalData.count)
-    // console.log("ft:", app.globalData.finalTotal)
-    console.log("arrSoilitem:", app.globalData.arrSoilitem)
     var arrSoil = app.globalData.arrSoilitem.map(x => x.display)
     var arrStroma = app.globalData.arrSubstritem.map(x => x.display)
     if (arrSoil.length == 0) {

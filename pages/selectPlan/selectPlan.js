@@ -202,7 +202,7 @@ Page({
     tip3: "订单超过10个土样享8折优惠",
   },
   radioChange: function (e) {    
-    console.log('radio发生change事件，携带value值为：', e.detail.value) 
+
     var showSoil = this.data.showSoil
     var showStroma = this.data.showStroma
     showSoil.map(x => (x.checked =false))
@@ -236,9 +236,7 @@ Page({
       discount2: 0.8,
       isPlan: plan
     })
-    console.log("curIndex:", index)
-    console.log("isPlan:", this.data.isPlan)
-    console.log("arr:", arr)
+
     app.globalData.arrSoilitem = arr1.map(x => ({ abbr: x.abbr,display:x.display}))
     app.globalData.arrSubstritem = arr2.map(x => ({ abbr: x.abbr, display: x.display }))
     delete app.globalData.arrSoiltotal
@@ -267,11 +265,10 @@ Page({
   },
   checkboxChangeSoil: function (e) {    
     var arrSoil = e.detail.value 
-    // console.log("checkboxChangeSoil:", arrSoil  )
+
     var arrSoilitem = arrSoil.map(x => x.split(" ")).map(x => ({ abbr: x[0], display: x[1] }))
     var arrSoiltotal = arrSoil.map(x => x.split(" ")).map(x => parseInt(x[2])).reduce((s, v) => s + v,0)
-    console.log("arrSoilitem:", arrSoilitem)
-    console.log("arrSoiltotal:", arrSoiltotal)
+
 
     var curindex = this.data.curIndex
     // 添加app全局数据供后面使用
@@ -329,15 +326,12 @@ Page({
         }
       }
     }   
-     
-    console.log("isPlanA:", isPlanA)
-    console.log("isPlanB:", isPlanB)
-    console.log("isPlanC:", isPlanC)
+ 
     
 
     var isPlan = (isPlanA || isPlanB || isPlanC)
     this.setData({ plan: isPlan })
-    console.log("isPlan:", isPlan)
+
     // 如果所选检测项目完全符合套餐项目，打9折 ；
     if (isPlan){
       if (app.globalData.arrSubstrtotal >= 0) {
@@ -400,7 +394,7 @@ Page({
     }
     // 检测项目数小于等于2，加收20元/样
      else if (arrSoilitem.concat(app.globalData.arrSubstritem).length <= 2 && arrSoilitem.concat(app.globalData.arrSubstritem).length >= 1) {
-      //console.log("arrSubstritem.length:", app.globalData.arrSubstritem.length)
+
       //this.setData({ discount1: 1, condition: 2 })
       if (app.globalData.arrSubstrtotal >= 0) {
         if (curindex == 0) {
@@ -425,23 +419,30 @@ Page({
       }
       
       arrSoiltotal =  arrSoiltotal +20
-      console.log("少于2样：", arrSoiltotal)
+
       var tmpCondition = (this.data.count < 10 ? 2 : 1)
       var discount = (this.data.count < 10 ? 1 : this.data.discount2)    
       
       this.setData({ subtotal: arrSoiltotal, finalTotal: (arrSoiltotal * this.data.count * discount).toFixed(1), condition: tmpCondition })
     } else if (arrSoiltotal == 0 && app.globalData.arrSubstrtotal == 0){
       this.setData({ subtotal: 0, finalTotal: 0})
-    }      
+    }
+
+    if (!isPlan) {
+      this.setData({
+        'items[0].checked': false,
+        'items[1].checked': false,
+        'items[2].checked': false,
+      })
+    }
     
   },
   checkboxChangeSubstrate: function (e) {
-    console.log('checkboxChangeSubstrate：', e.detail.value)
+
     var arrSubstr = e.detail.value
     var arrSubstritem = arrSubstr.map(x => x.split(" ")).map(x => ({ abbr: x[0], display: x[1] }))
     var arrSubstrtotal = arrSubstr.map(x => x.split(" ")).map(x => parseInt(x[2])).reduce((s, v) => s + v, 0)
-    console.log("arrSubstritem:", arrSubstritem)
-    console.log("arrSubstrtotal:", arrSubstrtotal)
+
     // 下单的时候用到
     app.globalData.arrSubstritem = arrSubstritem
     app.globalData.arrSubstrtotal = arrSubstrtotal
@@ -498,13 +499,11 @@ Page({
       }
     }
 
-    console.log("jz-isPlanA:", isPlanA)
-    console.log("jz-isPlanB:", isPlanB)
-    console.log("jz-isPlanC:", isPlanC)
+
     // 判断当前选项，属于某一套餐
     var isPlan = (isPlanA || isPlanB || isPlanC)
     this.setData({ plan:isPlan })
-    console.log("jz-isPlan:", isPlan)
+
     var curindex = this.data.curIndex
     if (isPlan) { // 套餐，打9折
       // this.setData({ discount1: 0.9, condition: 0 })
@@ -594,6 +593,14 @@ Page({
     } else if (arrSubstrtotal == 0 && app.globalData.arrSoiltotal == 0) {
       this.setData({ subtotal: 0, finalTotal: 0})
     }
+
+    if (!isPlan) {
+      this.setData({
+        'items[0].checked': false,
+        'items[1].checked': false,
+        'items[2].checked': false,
+      })
+    }
     
    
 
@@ -602,7 +609,7 @@ Page({
     this.setData({
        count: this.data.count <= 1 ? 1 : (this.data.count - 1),       
     }) 
-    // console.log("count:", this.data.count)
+
     var c = this.data.count
     var ft = this.data.finalTotal 
     if (c < 10) {
@@ -618,7 +625,7 @@ Page({
     this.setData({ 
       count: this.data.count + 1,      
     })
-    // console.log("count:", this.data.count)
+
     var c = this.data.count
     var ft = this.data.finalTotal
     if(c<10){
@@ -637,9 +644,7 @@ Page({
     var ft = this.data.finalTotal
     var condition = this.data.condition
     var plan = this.data.plan
-    console.log("bindManual-condition:", condition)
-    console.log("bindManual-isPlan:", this.data.isPlan)
-    console.log("bindManual-plan:", plan)
+
     if (c < 10) {
       //this.setData({ condition: 3 })
       //ft = (this.data.subtotal * c ).toFixed(1)
@@ -676,7 +681,7 @@ Page({
         content: '请至少选择一个检测项目',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
+
           }
         }
       })
@@ -709,7 +714,7 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        // console.log(res.data)
+
         soilBasic[0] = res.data.data.allExamineItems.soil
         self.data.listSoil[0] = soilBasic[0]
         self.setData({

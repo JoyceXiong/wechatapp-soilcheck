@@ -97,3 +97,10 @@
   margin: 0 auto ;
 }
 
+.login {
+  background-color: #439CD9;
+  color: #fff;
+  font-size:30rpx;
+  width: 280px;
+  margin-bottom: 20px;
+}

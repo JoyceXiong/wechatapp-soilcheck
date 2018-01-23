@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {}
+    userInfo: null,
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
   checkAllTap: function () {
     app.globalData.payCode = 1
@@ -96,5 +98,27 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  getUserInfo: function (e) {
+    if (e.detail.errMsg == "getUserInfo:ok") {
+      // 授权成功
+      app.globalData.userInfo = e.detail.userInfo
+      app.globalData.encryptedData = e.detail.encryptedData
+      app.globalData.iv = e.detail.iv
+      app.getToken(()=>{
+        this.setData({
+          userInfo: e.detail.userInfo,
+          hasUserInfo: true
+        })
+      })
+      
+    } else {
+      //授权失败
+      console.log("获取token失败")
+      return
+    }
+
   }
+
 })

@@ -51,6 +51,13 @@
 .radio {
   color:#757575;
 }
+.checkbox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 3px;
+}
 .checkbox-group {
   display: flex;
   flex-direction: column;
@@ -63,12 +70,13 @@
   justify-content: center;
 }
 .check-item {
-  float: right;
+  /* float: right; */
   margin-right: 15px;
 }
 .item-price {
-  float: right;
-  color: #FF9800;
+  /* float: right; */
+  /* color: #FF9800; */
+  color: #666;
   margin-right: 5px;
   font-size: 28rpx;
 }

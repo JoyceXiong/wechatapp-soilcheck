@@ -13,18 +13,25 @@
       <view class="serveName"><text class="verticalLine">|</text> 土壤种植检测</view>
       <checkbox-group class="checkbox-group" bindchange="checkboxChangeSoil">
         <label class="checkbox" wx:for="{{showSoil}}" wx:key="display">
-          <text class="item-name">{{item.display}}</text>
-          <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}'/>
-          <text class="item-price">￥{{item.price}}</text>
-              
+          <view>
+            <text class="item-name">{{item.display}}</text>
+          </view>
+          <view>
+            <text class="item-price">￥{{item.price}}</text>
+            <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}'/>
+          </view>
         </label>
       </checkbox-group>
       <view class="serveName"><text class="verticalLine">|</text> 基质种植检测</view>
       <checkbox-group class="checkbox-group" bindchange="checkboxChangeSubstrate">
         <label class="checkbox" wx:for="{{showStroma}}" wx:key="display">
-          <text class="item-name">{{item.display}}</text>
-          <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}' />
-          <text class="item-price">￥{{item.price}}</text>      
+          <view>
+            <text class="item-name">{{item.display}}</text>
+          </view>
+          <view>
+            <text class="item-price">￥{{item.price}}</text>
+            <checkbox class="check-item" value="{{item.abbr}} {{item.display}} {{item.price}}" checked='{{item.checked}}' />
+          </view>
         </label>
       </checkbox-group>
       <view class="tipView">

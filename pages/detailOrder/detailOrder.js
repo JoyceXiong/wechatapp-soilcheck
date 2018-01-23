@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    scrollHeight:0,
     status: '',
     orderid: '',
     arrSoilItem: [],
@@ -28,11 +29,8 @@ Page({
       url: '../sampleInstruction/sampleInstruction',
     })
   },
-  topaytap: function () {
-    console.log("topay-app.globalData.orderid:", this.data.orderid)
-    console.log("app.globalData.openid:", app.globalData.openid)
-    console.log("app.globalData.total:", app.globalData.finalTotal)
-    console.log("app.globalData.token:", app.globalData.token)
+  topaytap: function (e) {
+    var self = this;
     var that = this
     // 获取微信支付参数
     wx.request({
@@ -42,8 +40,9 @@ Page({
         "method": "POST",
         "path": "/portal/wxpay/getBrandWCPayRequestParams",
         "data": {
-          "total_fee": 1,
-          "orderid": this.data.orderid,
+          // "total_fee": 1,
+          "total_fee": self.data.total*100,
+          "orderid": self.orderid,
           "openid": app.globalData.openid          
         }
       },
@@ -53,9 +52,6 @@ Page({
         "x-auth-token": app.globalData.token
       },
       success: function (res) {
-        console.log("获取微信支付参数：")
-        console.log(res.data)
-        console.log("res.data.timeStamp:", res.data.timeStamp)
         var appId = res.data.appId
         var timeStamp = res.data.timeStamp
         var nonceStr = res.data.nonceStr
@@ -67,8 +63,7 @@ Page({
             
       },
       fail: function (err) {
-        console.log("err")
-        console.log(err)
+
       }
 
     })    
@@ -92,7 +87,7 @@ Page({
           icon: 'success',
           duration: 2000
         })
-        self.onLoad()
+        self.getOrderDetail();
         // wx.navigateBack({
         //   delta: 1, // 回退前 delta(默认为1) 页面
         //   success: function (res) {
@@ -109,14 +104,11 @@ Page({
         //   },
         //   complete: function () {
         //     // complete
-            
-          
         //   }
         // })
       },
       fail: function (res) {
         // fail
-        console.log("error:",res)
 
       },
       complete: function () {
@@ -129,14 +121,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.data.orderid = app.globalData.orderid;
-    console.log("onload-options:", options)
-    //console.log("onload-options.orderid:", options.orderid)
-    console.log("onload-app.globalData.orderid:", app.globalData.orderid)
-
-    console.log("onload-this.data.orderid:", this.data.orderid)
-    var self = this 
+    this.orderid = options.orderid;
+    this.setScrollViewHeight();
     // 获取订单详情
+    this.getOrderDetail();
+  },
+
+  getOrderDetail:function(){
+    var self = this;
     wx.request({
       url: "https://api-dev.daqiuyin.com/api",
       data: {
@@ -144,7 +136,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ orderInfo(id:\"" + app.globalData.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
+          "query": "{ orderInfo(id:\"" + this.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
         }
       },
       method: "POST",
@@ -153,11 +145,8 @@ Page({
         "x-auth-token": app.globalData.token
       },
       success: function (res) {
-        console.log("获取订单详情：")
-        console.log(res.data)
-        console.log(res.data.data.orderInfo.ctime)
-        app.globalData.finalTotal= res.data.data.orderInfo.amount
-        var arrSoil= res.data.data.orderInfo.examine_soil.map(x => x.display)
+        app.globalData.finalTotal = res.data.data.orderInfo.amount
+        var arrSoil = res.data.data.orderInfo.examine_soil.map(x => x.display)
         var arrStroma = res.data.data.orderInfo.examine_stroma.map(x => x.display)
         if (arrSoil.length == 0) {
           self.setData({ soilShow: false })
@@ -174,15 +163,24 @@ Page({
           phone: res.data.data.orderInfo.recipient.mobile,
           address: res.data.data.orderInfo.recipient.address,
           orderTime: new Date(res.data.data.orderInfo.ctime).toLocaleString(),
-          orderid: app.globalData.orderid
-          
+          orderid: self.orderid
+
         })
       }
 
     })
-    
   },
-
+  setScrollViewHeight() {
+    var self = this;
+    wx.getSystemInfo({
+      success: function (res2) {
+        //scroll高度
+        self.setData({
+          scrollHeight: res2.windowHeight
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

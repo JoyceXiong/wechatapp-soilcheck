@@ -15,7 +15,6 @@ Page({
 
   },
   bindNameInput: function (e) {
-    console.log(e)
     this.setData({ nameShow: false })
     this.setData({ name: e.detail.value})
     if (e.detail.value == '' || e.detail.value.trim().length == 0) {
@@ -45,14 +44,14 @@ Page({
     }  
     if (this.data.phone == '' || this.data.phone.trim().length == 0) {
       this.setData({ phoneShow: true })
-      
+
     }
     if (this.data.address == '' || this.data.address.trim().length == 0) {
       this.setData({ addrShow: true })
       
     } 
+
     if (this.data.nameShow || this.data.phoneShow || this.data.addrShow){
-      this.setData({ addrShow: true })
       return
     } 
 
@@ -75,19 +74,12 @@ Page({
           'x-auth-token': app.globalData.token
         },
         success: function (res) {
-          console.log("添加地址请求")
-          console.log(res.data)
+
         },
         complete: function () {
           if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
-            console.log("app.globalData.arrSoilitem:", app.globalData.arrSoilitem)
-            console.log("app.globalData.arrSubstritem:", app.globalData.arrSubstritem)
-            
             var arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
             var arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
-            console.log("arrSoilitem:", arrSoilitem)
-            console.log("arrSubstritem:", arrSubstritem)
-            console.log("this:",this)
             // 提交订单
             wx.request({
               url: 'https://api-dev.daqiuyin.com/api',
@@ -105,8 +97,7 @@ Page({
                 'x-auth-token': app.globalData.token
               },
               success: function (res) {
-                console.log("下单请求")
-                console.log(res.data)
+
                 app.globalData.orderid = res.data.data.placeOrder.id
                 // 获取微信支付参数
                 wx.request({
@@ -116,7 +107,8 @@ Page({
                     "method": "POST",
                     "path": "/portal/wxpay/getBrandWCPayRequestParams",
                     "data": {
-                      "total_fee": 1,
+                      // "total_fee": 1,
+                      "total_fee": app.globalData.finalTotal*100,
                       "orderid": app.globalData.orderid,
                       "openid": app.globalData.openid
                     }
@@ -127,8 +119,7 @@ Page({
                     "x-auth-token": app.globalData.token
                   },
                   success: function (res) {
-                    console.log("获取微信支付参数：")
-                    console.log(res.data)
+
                     var appId = res.data.appId
                     var timeStamp = res.data.timeStamp
                     var nonceStr = res.data.nonceStr
@@ -141,8 +132,7 @@ Page({
 
                   },
                   fail: function (err) {
-                    console.log("err")
-                    console.log(err)
+
                   }
 
 
@@ -159,8 +149,7 @@ Page({
   },
   /* 支付   */
   pay: function (param) {
-    console.log("支付")
-    //console.log("param:",param)
+
     wx.requestPayment({
       timeStamp: param.timeStamp,
       nonceStr: param.nonceStr,
@@ -169,8 +158,6 @@ Page({
       paySign: param.paySign,
       success: function (res) {
         // success
-        console.log("到支付success这里:", res)
-        console.log("微信支付suceescc-currentPages:",getCurrentPages())
         // wx.showToast({
         //   title: '支付成功',
         //   icon: 'success',
@@ -184,15 +171,12 @@ Page({
           //   })
           // },
           fail: function () {
-            console.log("跳转失败！")
+  
           }
         })
-        
-        
       },
       fail: function (res) {
         // fail
-        console.log("到支付fail这里:", res)
         wx.switchTab({
           url: '../myInfo/myInfo',
           // success: function () {
@@ -203,11 +187,7 @@ Page({
         })
       },
       complete: function () {
-        // complete
-        console.log("微信支付后currentPages:", getCurrentPages())        
-        
-        
-        
+        // complete      
       }
     })
   },
@@ -234,8 +214,6 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        console.log("获取收货信息：")
-        console.log(res.data)
         self.setData({
           name: res.data.data.myAddress.name,
           phone: res.data.data.myAddress.mobile,

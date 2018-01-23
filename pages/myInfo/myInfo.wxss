@@ -44,7 +44,7 @@
   color: #7D7D7D;
   display: flex;
   flex-direction: row;
-  margin: 15px;
+  padding: 15px;
   flex-wrap: wrap;
   justify-content: space-between;  
   font-size: 28rpx;
@@ -52,7 +52,7 @@
 .tittle-item1 {
   display: flex;
   flex-direction: row;
-  margin: 15px;
+  padding: 15px;
   flex-wrap: wrap;
   justify-content: space-between;
   color: #A3A3A3;  
@@ -66,4 +66,13 @@
   margin: 15px auto;  
   font-size: 24rpx;
   color: #A3A3A3;
+}
+
+.login {
+  background-color: #439CD9;
+  color: #fff;
+  font-size:30rpx;
+  width: 280px;
+  margin-top: 150px;
+  margin-bottom: 100px;
 }

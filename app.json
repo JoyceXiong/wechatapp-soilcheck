@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/home/home",
     "pages/myInfo/myInfo",  
     "pages/selectPlan/selectPlan",
