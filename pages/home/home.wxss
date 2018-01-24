@@ -104,3 +104,21 @@
   width: 280px;
   margin-bottom: 20px;
 }
+
+action-sheet-item {
+background-color: rgba(255, 255, 255, 0.1);
+position:relative;
+padding:10px 0;
+text-align:center;
+font-size:18px;
+display:block;
+color: #157AFB;
+
+}
+
+action-sheet-cancel {
+  color: #157AFB;
+}
+.actioncancel {
+  border-radius: 25%;
+}

@@ -13,7 +13,13 @@
     </text>     
   </view>
   <button bindtap='startCheckTap' class="btnCheck">开始检测</button>
-   
+  <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" class="actionsheet">
+      <block wx:for-items="{{actionSheetItems}}" wx:key="id"> 
+          <action-sheet-item bindtap="bindItemTap"  data-id="{{item.id}}">{{item.name}}</action-sheet-item>
+      </block>
+      <!--自动隐藏action-sheet-->
+      <action-sheet-cancel class="actioncancel">取消</action-sheet-cancel>
+  </action-sheet> 
 </scroll-view>
 <scroll-view class="contentView">
   <view class="flex-view-row tittle">

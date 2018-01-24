@@ -10,8 +10,8 @@
   <view class='select-container'>
     <scroll-view class="scrollView" scroll-y="true" scroll-with-animation='{{true}}' style="height: {{scrollHeight}}px;"  scroll-top='0'>
     
-      <view class="serveName"><text class="verticalLine">|</text> 土壤种植检测</view>
-      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSoil">
+      <view class="serveName" wx:if="{{checkType == 0}}"><text class="verticalLine"></text> 土壤种植检测</view>
+      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSoil" wx:if="{{checkType == 0}}">
         <label class="checkbox" wx:for="{{showSoil}}" wx:key="display">
           <view>
             <text class="item-name">{{item.display}}</text>
@@ -22,8 +22,8 @@
           </view>
         </label>
       </checkbox-group>
-      <view class="serveName"><text class="verticalLine">|</text> 基质种植检测</view>
-      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSubstrate">
+      <view class="serveName" wx:if="{{checkType == 1}}"><text class="verticalLine"></text> 基质种植检测</view>
+      <checkbox-group class="checkbox-group" bindchange="checkboxChangeSubstrate" wx:if="{{checkType == 1}}">
         <label class="checkbox" wx:for="{{showStroma}}" wx:key="display">
           <view>
             <text class="item-name">{{item.display}}</text>

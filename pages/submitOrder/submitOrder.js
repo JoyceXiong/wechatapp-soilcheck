@@ -78,8 +78,19 @@ Page({
         },
         complete: function () {
           if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
-            var arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
-            var arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
+            var arrSoilitem = []
+            var arrSubstritem = []
+            console.log("arrSubstritem:", arrSubstritem)
+            arrSubstritem=''
+            console.log("clear-arrSubstritem:", arrSubstritem)
+
+            if(app.globalData.checkType == 0){
+              arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
+              
+            }else if(app.globalData.checkType == 1) {
+              
+              arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
+            }
             // 提交订单
             wx.request({
               url: 'https://api-dev.daqiuyin.com/api',
