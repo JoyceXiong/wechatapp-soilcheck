@@ -119,7 +119,7 @@ Page({
                     "path": "/portal/wxpay/getBrandWCPayRequestParams",
                     "data": {
                       // "total_fee": 1,
-                      "total_fee": app.globalData.finalTotal*100,
+                      "total_fee": Number(app.globalData.finalTotal * 100).toFixed(0),
                       "orderid": app.globalData.orderid,
                       "openid": app.globalData.openid
                     }

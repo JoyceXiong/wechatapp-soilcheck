@@ -31,7 +31,9 @@ Page({
   },
   topaytap: function (e) {
     var self = this;
-    var that = this
+    var that = this;
+    var total = Number(this.data.total * 100).toFixed(0);
+    console.log(this.data);
     // 获取微信支付参数
     wx.request({
       url: "https://api-dev.daqiuyin.com/api",
@@ -41,7 +43,7 @@ Page({
         "path": "/portal/wxpay/getBrandWCPayRequestParams",
         "data": {
           // "total_fee": 1,
-          "total_fee": self.data.total*100,
+          "total_fee": total ,
           "orderid": self.orderid,
           "openid": app.globalData.openid          
         }
