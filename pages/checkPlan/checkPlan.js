@@ -11,7 +11,8 @@ Page({
     count: 0,
     total:0,
     soilShow: true,
-    stromaShow: true
+    stromaShow: true,
+    checkType: null
   },
   nexttap: function () {
     wx.navigateTo({
@@ -22,6 +23,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({checkType: app.globalData.checkType})
     var arrSoil = app.globalData.arrSoilitem.map(x => x.display)
     var arrStroma = app.globalData.arrSubstritem.map(x => x.display)
     if (arrSoil.length == 0) {
