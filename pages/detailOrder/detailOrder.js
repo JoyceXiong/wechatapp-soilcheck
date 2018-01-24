@@ -122,7 +122,7 @@ Page({
    */
   onLoad: function (options) {
     this.orderid = options.orderid;
-    this.setScrollViewHeight();
+    // this.setScrollViewHeight();
     // 获取订单详情
     this.getOrderDetail();
   },

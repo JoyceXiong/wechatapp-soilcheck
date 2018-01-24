@@ -1,5 +1,6 @@
 <!--pages/payingOder/payingOder.wxml-->
-<scroll-view class="payingOder" style="height: {{scrollHeight}}px;" scroll-y="true" scroll-with-animation='{{true}}'>
+<scroll-view class="payingOder" scroll-y="true" scroll-with-animation='{{true}}'>
+<!-- <scroll-view class="payingOder" style="height: {{scrollHeight}}px;" scroll-y="true" scroll-with-animation='{{true}}'> -->
   <view class="contentView">
     <view class="flex-view-row tittle">
       <view class="verticalLine"></view> <view class="ordertittle">订单信息</view> 

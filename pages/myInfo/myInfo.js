@@ -57,8 +57,10 @@ Page({
    */
   onShow: function () {
     if (app.globalData.orderid){
+      var orderid = app.globalData.orderid;
+      app.globalData.orderid="";
       wx.navigateTo({
-        url: '../detailOrder/detailOrder?orderid=' + app.globalData.orderid,
+        url: '../detailOrder/detailOrder?orderid=' + orderid,
       })
     }
   },
@@ -67,9 +69,9 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    if (app.globalData.orderid) {
-      app.globalData.orderid="";
-    }
+    // if (app.globalData.orderid) {
+    //   app.globalData.orderid="";
+    // }
   },
 
   /**
