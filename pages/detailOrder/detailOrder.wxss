@@ -20,7 +20,7 @@
   color: #666;  
   display: flex;
   margin: 0 10px 0 15px;
-  
+  /* word-wrap:break-word; */
 }
 .verticalLine {
   width: 4px;
@@ -81,4 +81,11 @@
   align-items: center;
   flex-direction: row; 
   margin: 0 auto ;
+}
+.add-word{
+  word-wrap:break-word;
+  display: block;
+}
+.add-p{
+  display: block;
 }

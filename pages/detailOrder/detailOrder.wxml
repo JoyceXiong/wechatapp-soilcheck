@@ -35,8 +35,8 @@
     <view class="flex-view-row content">
       <text decode="{{true}}">手机号：{{phone}}</text>
     </view> 
-    <view class="flex-view-row content">
-      <text decode="{{true}}" space="{{true}}">地&nbsp;&nbsp;&nbsp;址：{{address}}</text> 
+    <view class="flex-view-row content add-p">
+      <text class='add-word' decode="{{true}}" space="{{true}}">地&nbsp;&nbsp;&nbsp;址：{{address}}</text> 
     </view>  
   </view>
 
