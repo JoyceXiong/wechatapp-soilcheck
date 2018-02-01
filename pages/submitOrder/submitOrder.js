@@ -24,13 +24,13 @@ Page({
   bindNameInput: function (e) {
     this.setData({ nameShow: false })
     this.setData({ name: e.detail.value})
-    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+    if (!e.detail.value  || e.detail.value.trim().length == 0) {
       this.setData({ nameShow: true })
     }
   },
   bindPhoneInput: function (e) {
     var self = this
-    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+    if (!e.detail.value || e.detail.value.trim().length == 0) {
       this.setData({ phoneShow: true, phone: '' })
     }
     var phone = e.detail.value
@@ -55,7 +55,7 @@ Page({
   bindAddressInput: function (e) {
     this.setData({ addrShow: false })
     this.setData({ address: e.detail.value})
-    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+    if (!e.detail.value || e.detail.value.trim().length == 0) {
       this.setData({ addrShow: true })
     }
   },
@@ -86,7 +86,7 @@ Page({
   bindPlantInput: function (e) {
     this.setData({ plantShow: false })
     this.setData({ plant: e.detail.value })
-    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+    if (!e.detail.value || e.detail.value.trim().length == 0) {
       this.setData({ plantShow: true })
     }
   },
@@ -103,30 +103,30 @@ Page({
     // console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({ getSoilDateShow: false })
     this.setData({ getSoilDate: e.detail.value })
-    if (e.detail.value == '' || e.detail.value.trim().length == 0) {
+    if (!e.detail.value || e.detail.value.trim().length == 0) {
       this.setData({ getSoilDateShow: true })
     }
   },
   submittap: function () { 
     var that = this
     
-    if (this.data.name == '' || this.data.name.trim().length == 0){
+    if (!this.data.name  || this.data.name.trim().length == 0){
       this.setData({ nameShow: true }) 
       
     }  
-    if (this.data.phone == '' || this.data.phone.trim().length == 0) {
+    if (!this.data.phone  || this.data.phone.trim().length == 0) {
       this.setData({ phoneShow: true })
 
     }
-    if (this.data.address == '' || this.data.address.trim().length == 0) {
+    if (!this.data.address  || this.data.address.trim().length == 0) {
       this.setData({ addrShow: true })
       
     }
-    if (this.data.plant == '' || this.data.plant.trim().length == 0) {
+    if (!this.data.plant  || this.data.plant.trim().length == 0) {
       this.setData({ plantShow: true })
 
     } 
-    if (this.data.getSoilDate == '' || this.data.getSoilDate.trim().length == 0) {
+    if (!this.data.getSoilDate  || this.data.getSoilDate.trim().length == 0) {
       this.setData({ getSoilDateShow: true })
 
     }
@@ -154,23 +154,20 @@ Page({
           'x-auth-token': app.globalData.token
         },
         success: function (res) {
-
-        },
-        complete: function () {
           console.log("app.globalData.arrSoilitem:", app.globalData.arrSoilitem)
           console.log("app.globalData.arrSubstritem:", app.globalData.arrSubstritem)
           if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
             var arrSoilitem = []
             var arrSubstritem = []
             console.log("arrSubstritem:", arrSubstritem)
-            arrSubstritem=''
+            arrSubstritem = ''
             console.log("clear-arrSubstritem:", arrSubstritem)
 
-            if(app.globalData.checkType == 0){
+            if (app.globalData.checkType == 0) {
               arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
-              
-            }else if(app.globalData.checkType == 1) {
-              
+
+            } else if (app.globalData.checkType == 1) {
+
               arrSubstritem = (app.globalData.arrSubstritem.map(x => x.abbr)).map(x => ('"' + x + '"'))
             }
             // 提交订单
@@ -224,17 +221,37 @@ Page({
                     that.pay(param)
 
                   },
-                  fail: function (err) {
+                  fail: function (res) {
+                    wx.showModal({
+                      title: '提示',
+                      content: res.errMsg,
+                      showCancel: false,
+                      success: function (res) {
 
+                      }
+                    })
                   }
 
 
                 })
-                
+
               }
             })
 
           }
+        },
+        fail: function (res){
+          wx.showModal({
+            title: '提示',
+            content: res.errMsg,
+            showCancel: false,
+            success: function (res) {
+
+            }
+          })
+        },
+        complete: function () {
+          
 
         }
       })   
@@ -257,27 +274,32 @@ Page({
         //   duration: 1500
         // })
         wx.switchTab({
-          url: '../myInfo/myInfo',
-          // complete: function () {
-          //   wx.navigateTo({
-          //     url: '../detailOrder/detailOrder',
-          //   })
-          // },
-          fail: function () {
-  
-          }
+          url: '../myInfo/myInfo'
         })
       },
       fail: function (res) {
-        // fail
-        wx.switchTab({
-          url: '../myInfo/myInfo',
-          // success: function () {
-          //   wx.navigateTo({
-          //     url: '../detailOrder/detailOrder',
-          //   })
-          // }
+
+        let errMsg = res.errMsg
+        if (errMsg ==='requestPayment:fail cancel'){
+          errMsg = '支付取消'
+        }
+        wx.showModal({
+          title: '提示',
+          content: errMsg,
+          showCancel: false,
+          success: function (res) {
+            // fail
+            wx.switchTab({
+              url: '../myInfo/myInfo',
+              // success: function () {
+              //   wx.navigateTo({
+              //     url: '../detailOrder/detailOrder',
+              //   })
+              // }
+            })
+          }
         })
+        
       },
       complete: function () {
         // complete      

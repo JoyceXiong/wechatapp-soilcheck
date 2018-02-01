@@ -111,7 +111,17 @@ Page({
         // })
       },
       fail: function (res) {
-        // fail
+        let errMsg = res.errMsg
+        if (errMsg === 'requestPayment:fail cancel') {
+          errMsg = '支付取消'
+        }
+        wx.showModal({
+          title: '提示',
+          content: errMsg,
+          showCancel: false,
+          success: function (res) {
+          }
+        })
 
       },
       complete: function () {
