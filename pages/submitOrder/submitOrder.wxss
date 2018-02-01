@@ -67,6 +67,7 @@
   color: rgba(117, 117, 117);
   width: 100%;
   font-size: 14px;
+  word-wrap:break-word;
 }
 .col-container{
   display:flex;
