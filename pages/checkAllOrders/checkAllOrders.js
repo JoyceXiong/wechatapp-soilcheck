@@ -25,7 +25,10 @@ Page({
     })
   },
   // 获取全部订单信息
+  // 订单状态:['initial', 'expired', 'paid', 'examined', 'shipped', 'canceled', 'refunded']
+  // examined, shipped都是已完成
   getAllOrders (cb) {
+    // console.log("app.globalData.token:", app.globalData.token)
     const self = this
     self.setData({ _num: app.globalData.payCode})
     wx.request({
@@ -221,7 +224,10 @@ Page({
     app.globalData.payCode = e.target.dataset.num
     var arrOrders = this.data.allorders
     if (arrOrders.length > 0) {
-      arrOrders = arrOrders.filter(x => x.status == 'shipped')
+      var shippedArr = arrOrders.filter(x => x.status == 'shipped')
+      var examinedArr = arrOrders.filter(x => x.status == 'examined')
+      arrOrders = shippedArr.concat(examinedArr)
+      
       if (arrOrders.length > 0) {
         
         this.setData({
@@ -358,7 +364,9 @@ Page({
             arrOrders = arrOrders.filter(x => x.status == 'paid')
             break
           case '4':
-            arrOrders = arrOrders.filter(x => x.status == 'shipped')
+            var shippedOrders = arrOrders.filter(x => x.status == 'shipped')
+            var examinedOrders = arrOrders.filter(x => x.status == 'examined')
+            arrOrders = shippedOrders.concat(examinedOrders)
             break
           case '5':
             arrOrders = arrOrders.filter(x => x.status == 'canceled')

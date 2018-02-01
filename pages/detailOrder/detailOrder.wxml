@@ -7,7 +7,7 @@
       <text class="orderState" style='color:orange' wx:if="{{status == 'initial'}}">待付款</text>
       <text class="orderState" style='color:#1296db' wx:elif="{{status == 'paid'}}">待检测</text>
       <text class="orderState" style='color:#ccc' wx:elif="{{status == 'expired'}}">已过期</text>
-      <text class="orderState" style='color:#76c421' wx:elif="{{status == 'shipped'}}">已完成</text>
+      <text class="orderState" style='color:#bbb' wx:elif="{{status == 'shipped' || status == 'examined'}}">已完成</text>
       <text class="orderState" style='color:#ccc' wx:elif="{{status == 'canceled'}}">已关闭</text>
       <text class="orderState" style='color:#ccc' wx:elif="{{status == 'refunded'}}">已退款</text>
     </view>
@@ -26,28 +26,29 @@
 
   <view class="contentView">
     <view class="flex-view-row tittle">
-      <view class="verticalLine"></view> <view class="ordertittle"> 收货地址</view> 
+      <view class="verticalLine"></view> <view class="ordertittle"> 送样人信息</view> 
     </view>
     <view class="line-css"></view>  
     <view class="flex-view-row content">
-      <text decode="{{true}}" space="{{true}}">姓&emsp;名：{{name}}</text> 
+      <text decode="{{true}}" space="{{true}}">姓&nbsp;&nbsp;&nbsp;名：{{name}}</text> 
     </view> 
     <view class="flex-view-row content">
       <text decode="{{true}}">手机号：{{phone}}</text>
     </view> 
     <view class="flex-view-row content">
-      <text decode="{{true}}" space="{{true}}">地&emsp;址：{{address}}</text>
+      <text decode="{{true}}" space="{{true}}">地&nbsp;&nbsp;&nbsp;址：{{address}}</text> 
     </view>  
-    
   </view>
 
   <button bindtap='topaytap' class="topaytap" wx:if="{{status=='initial'}}">去支付</button>
 
-  <view class="contentView" wx:if="{{status=='shipped'}}">
+  <view class="contentView" wx:if="{{status=='shipped'  || status=='examined'}}"><!--  -->
     <view class="flex-view-row tittle">
-      <text class="ordertittle"><text class="verticalLine"></text> 检测报告</text> 
+      <view class="verticalLine"></view> <view class="ordertittle">检测报告</view> 
     </view>
     <view class="line-css"></view>
-    <image class="report" mode='aspectFit' src='../../images/report.png' ></image>
+    <view class="flex-view-row content">
+      <button bindtap='downloadReport' wx:if="{{reportUrl}}">点击查看检测报告</button> 
+    </view> 
   </view>
 </scroll-view>

@@ -22,7 +22,8 @@ Page({
     receiver: '土壤检测组',
     receivePhone: '15112345678',
     receiveAddr: '北京市朝阳区时间国际8号楼1510',
-    report: ''
+    report: '',
+    reportUrl: ''
   },
   soilSampleTap: function () {
     wx.navigateTo({
@@ -127,6 +128,7 @@ Page({
     // this.setScrollViewHeight();
     // 获取订单详情
     this.getOrderDetail();
+    console.log("options.orderid:", options.orderid)
   },
 
   getOrderDetail:function(){
@@ -138,7 +140,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ orderInfo(id:\"" + this.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
+          "query": "{ orderInfo(id:\"" + this.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime, report_url }}"
         }
       },
       method: "POST",
@@ -147,6 +149,8 @@ Page({
         "x-auth-token": app.globalData.token
       },
       success: function (res) {
+        console.log(res)
+        
         app.globalData.finalTotal = res.data.data.orderInfo.amount
         var arrSoil = res.data.data.orderInfo.examine_soil.map(x => x.display)
         var arrStroma = res.data.data.orderInfo.examine_stroma.map(x => x.display)
@@ -165,9 +169,11 @@ Page({
           phone: res.data.data.orderInfo.recipient.mobile,
           address: res.data.data.orderInfo.recipient.address,
           orderTime: new Date(res.data.data.orderInfo.ctime).toLocaleString(),
-          orderid: self.orderid
-
+          orderid: self.orderid,
+          reportUrl: res.data.data.orderInfo.report_url
+          
         })
+        //self.downloadReport()
       }
 
     })
@@ -182,6 +188,29 @@ Page({
         })
       }
     })
+  },
+  // 下载检测报告并在页面上展示
+  downloadReport: function downloadReport () {
+    var self = this
+    if (this.data.reportUrl){
+      wx.downloadFile({
+        url: this.data.reportUrl,
+        header: {},
+        success: function (res) {
+          console.log(res)
+          self.setData({ reportUrl: res.tempFilePath })
+          wx.openDocument({
+            filePath: res.tempFilePath,
+            success: res => {
+              console.log("打开文件成功:", res)
+            }
+          })
+        },
+        fail: function (res) { },
+        complete: function (res) { },
+      })
+    }
+    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

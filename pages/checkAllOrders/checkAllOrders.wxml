@@ -61,7 +61,7 @@
             <text class="orderState" style='color:orange' wx:if="{{item.status == 'initial'}}">待付款</text>
             <text class="orderState" style='color:#3E9ADB' wx:elif="{{item.status == 'paid'}}">待检测</text>
             <text class="orderState" style='color:#ccc' wx:elif="{{item.status == 'expired'}}">已过期</text>
-            <text class="orderState" style='color:#76c421' wx:elif="{{item.status == 'shipped'}}">已完成</text>
+            <text class="orderState" style='color:#bbb' wx:elif="{{item.status == 'shipped' ||item.status == 'examined'}}">已完成</text>
             <text class="orderState" style='color:#ccc' wx:elif="{{item.status == 'canceled'}}">已关闭</text>
             <text class="orderState" style='color:#ccc' wx:elif="{{item.status == 'refunded'}}">已退款</text>
             

@@ -1,12 +1,62 @@
 <!--pages/submitOrder/submitOrder.wxml-->
-<view class="contentView">
-  <input class="input" type="text" maxlength="10" bindinput="bindNameInput" value='{{name}}' placeholder='请输入姓名...'focus="true" />
-  <text class="input" style='color:red;font-size:12px;' wx:if="{{nameShow}}">*姓名不能为空</text>
-  <input class="input" type="number" maxlength="11" bindinput="bindPhoneInput" value='{{phone}}' placeholder='请输入手机号...' />
-  <text class="input" style='color:red;font-size:12px;' wx:if="{{phoneShow}}">*手机号不能为空</text>
+<scrol-view class="contentView">
 
-  <textarea class="input" placeholder='请输入收货地址...' maxlength='100' auto-height="true" bindinput="bindAddressInput" value='{{address}}'></textarea>
-  <text class="input" style='color:red;font-size:12px;' wx:if="{{addrShow}}">*收货地址不能为空，请检查</text>  
+  <view class="sender-item">
+    <text class="sender-label">* 姓  名</text>
+    <input class="sender-input" type="text" maxlength="10" bindinput="bindNameInput" value='{{name}}' placeholder='请输入姓名' placeholder-style="color: rgba(186, 186, 186, 1)" focus="true"  confirm-hold="false"/>    
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{nameShow}}">*  姓名不能为空</text>
 
-</view>
+  <view class="sender-item">
+    <text class="sender-label">* 电  话</text>
+    <input class="sender-input" type="number" maxlength="17" bindblur="bindPhoneInput" value='{{phone}}' placeholder='请输入联系电话' placeholder-style="color: rgba(186, 186, 186, 1)" />  
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{phoneShow}}">*  手机号不能为空</text>
+
+  <view class="sender-item" style="display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:flex-start;align-content: flex-start;">
+    <text class="sender-label">* 地  址</text>
+    <textarea class="sender-input" style="margin-top:-6px;height:30px;" placeholder='请输入地址(具体到县/乡/村)'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true" bindinput="bindAddressInput" value='{{address}}'></textarea>  
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{addrShow}}">*  收货地址不能为空，请检查</text>
+
+  <view class="sender-item">
+    <text class="sender-label" style='justify-content: flex-end;'>电子邮箱</text>
+    <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="emailBindblur" value='{{email}}' ></input>  
+  </view>
+
+  <view class="sender-item">
+    <text class="sender-label" style='justify-content: flex-end;'>* 种植作物</text>
+    <input class="sender-input" placeholder='请输入样本的种植作物'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true" bindinput="bindPlantInput" value='{{plant}}' ></input>  
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{plantShow}}">*  种植作物不能为空</text>
+
+  <view class="sender-item">
+    <text class="sender-label"style='justify-content: flex-end;width:90px;'>  种植面积(亩)</text>
+    <input class="sender-input" type="digit" placeholder='请输入种植面积（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="bindAreaInput" value='{{area}}'></input>  
+  </view>
+
+  <!--   
+  <view class="sender-item">
+    <text class="sender-label">* 取土时间</text>
+    <input class="sender-input" type="text" maxlength="10" bindinput="bindSoilTimeInput" value='{{getSoilTime}}' placeholder='请输入时间，如：2018-1-1' placeholder-style="color: rgba(186, 186, 186, 1)" focus="true" />    
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{getSoilDateShow}}">*  取土时间不能为空</text>
+  -->
+
+  <view class="sender-item" style="display: flex;flex-direction: row; align-items: baseline;">
+    <text class="sender-label" style="justify-content:center;">* 取土时间</text>
+    <view class="section">
+      <picker mode="date" value="{{date}}" start="{{getSoilDate}}" end="2099-12-31" bindchange="bindDateChange">
+        <view class="picker">
+          {{getSoilDate}}
+        </view>
+      </picker>
+    </view> 
+  </view>
+  <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{getSoilDateShow}}">*  取土时间不能为空</text>
+
+
+
+
+</scrol-view>
 <button class="nextBtn" bindtap='submittap'>提交订单</button>

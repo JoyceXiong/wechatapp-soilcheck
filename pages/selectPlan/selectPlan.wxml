@@ -53,9 +53,10 @@
       
       <!-- 数值 -->
       <view class='c-number'>
-        <input type="number" maxlength="9" bindfocus="focusHandler" bindblur="blueHandler" bindchange="bindManual" class="count" value='{{count}}'  />
+        <text class='yang-text'>样本数</text> 
+        <input type="number" maxlength="3" bindfocus="focusHandler" bindblur="blueHandler" placeholder='最大值100'  bindchange="bindManual" class="count" value='{{count}}'  />
         <!-- 加号 <text  bindtap="bindPlus">+</text>  -->
-        <text class='yang-text'>样</text>    
+           
       </view>  
     </view>
     <view class="btm-item">

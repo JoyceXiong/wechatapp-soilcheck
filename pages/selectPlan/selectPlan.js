@@ -397,7 +397,7 @@ Page({
       this.setData({ subtotal: arrSoiltotal, finalTotal: (arrSoiltotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
     } 
     // 项目数不等于当前套餐，但又不完全符合任意套餐所含明细，不打折；    
-    else if (arrSoilitem.concat(app.globalData.arrSubstritem).length < this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length && arrSoilitem.concat(app.globalData.arrSubstritem).length > 2 || (arrSoilitem.concat(app.globalData.arrSubstritem).length >= this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length &&isPlan==false)){
+    else if (choseItems.length < this.data.listSoil[curindex].length && choseItems.length > 2 || (choseItems.length >= this.data.listSoil[curindex].length && isPlan==false)){
       //this.setData({ discount1: 1 ,condition: 3})
       if (app.globalData.arrSubstrtotal >= 0) {
         if (curindex == 0) {
@@ -425,38 +425,38 @@ Page({
       this.setData({ subtotal: arrSoiltotal, finalTotal: (arrSoiltotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
     }
     // 检测项目数小于等于2，加收20元/样
-     else if (arrSoilitem.concat(app.globalData.arrSubstritem).length <= 2 && arrSoilitem.concat(app.globalData.arrSubstritem).length >= 1) {
+    else if (choseItems.length <= 2 && choseItems.length >= 1) {
 
       //this.setData({ discount1: 1, condition: 2 })
-      if (app.globalData.arrSubstrtotal >= 0) {
-        if (curindex == 0) {
-          arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
-        }
-        else if (curindex == 1) {
-          arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
-        }
-        else if (curindex == 2) {
-          arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
-        }
-      } else {
-        if (curindex == 0) {
-          arrSoiltotal = arrSoiltotal // + 408
-        }
-        else if (curindex == 1) {
-          arrSoiltotal = arrSoiltotal // + 838
-        }
-        else if (curindex == 2) {
-          arrSoiltotal = arrSoiltotal // + 1068
-        }
-      }
+      // if (app.globalData.arrSubstrtotal >= 0) {
+      //   if (curindex == 0) {
+      //     arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
+      //   }
+      //   else if (curindex == 1) {
+      //     arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
+      //   }
+      //   else if (curindex == 2) {
+      //     arrSoiltotal = arrSoiltotal + app.globalData.arrSubstrtotal
+      //   }
+      // } else {
+      //   if (curindex == 0) {
+      //     arrSoiltotal = arrSoiltotal // + 408
+      //   }
+      //   else if (curindex == 1) {
+      //     arrSoiltotal = arrSoiltotal // + 838
+      //   }
+      //   else if (curindex == 2) {
+      //     arrSoiltotal = arrSoiltotal // + 1068
+      //   }
+      // }
       
-      arrSoiltotal =  arrSoiltotal +20
+      var finalT = arrSoiltotal + 20
 
       var tmpCondition = (this.data.count < 10 ? 2 : 1)
       var discount = (this.data.count < 10 ? 1 : this.data.discount2)    
       
-      this.setData({ subtotal: arrSoiltotal, finalTotal: (arrSoiltotal * this.data.count * discount).toFixed(1), condition: tmpCondition })
-    } else if (arrSoiltotal == 0 && app.globalData.arrSubstrtotal == 0){
+      this.setData({ subtotal: finalT, finalTotal: (finalT * this.data.count * discount).toFixed(1), condition: tmpCondition })
+    } else if (arrSoiltotal == 0 ){
       this.setData({ subtotal: 0, finalTotal: 0})
     }
 
@@ -572,7 +572,7 @@ Page({
       if (isPlanB) { this.setData({ 'items[1].checked': 'true', isPlan: 'B'}) }
       if (isPlanC) { this.setData({ 'items[2].checked': 'true', isPlan: 'C'}) }
       this.setData({ subtotal: arrSubstrtotal, finalTotal: (arrSubstrtotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
-    } else if (arrSubstritem.concat(app.globalData.arrSoilitem).length < this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length && arrSubstritem.concat(app.globalData.arrSoilitem).length > 2 || (arrSubstritem.concat(app.globalData.arrSoilitem).length >= this.data.listSoil[curindex].concat(this.data.listSubstrate[curindex]).length && isPlan == false)) {
+    } else if (choseItems.length < this.data.listSubstrate[curindex].length && choseItems.length > 2 || (choseItems.length >= this.data.listSubstrate[curindex].length && isPlan == false)) {
        
       if (app.globalData.arrSoiltotal >= 0) {
         if (curindex == 0) {
@@ -598,35 +598,36 @@ Page({
       var tmpCondition = (this.data.count < 10 ? 3 : 1)
       var discount = (this.data.count < 10 ? 1: this.data.discount2) 
       this.setData({ subtotal: arrSubstrtotal, finalTotal: (arrSubstrtotal * this.data.count * discount).toFixed(1), condition: tmpCondition})
-    } else if (arrSubstritem.concat(app.globalData.arrSoilitem).length <= 2 && arrSubstritem.concat(app.globalData.arrSoilitem).length >= 1) {// 检测项目数小于等于2，加收20元/样
-
+    } else if (choseItems.length <= 2 && choseItems.length >= 1) {
+      // 检测项目数小于等于2，加收20元/样
        
-      if (app.globalData.arrSoiltotal >= 0) {
-        if (curindex == 0) {
-          arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
-        }
-        else if (curindex == 1) {
-          arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
-        }
-        else if (curindex == 2) {
-          arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
-        }
-      } else {
-        if (curindex == 0) {
-          arrSubstrtotal = arrSubstrtotal 
-        }
-        else if (curindex == 1) {
-          arrSubstrtotal = arrSubstrtotal 
-        }
-        else if (curindex == 2) {
-          arrSubstrtotal = arrSubstrtotal 
-        }
-      }
-      arrSubstrtotal = arrSubstrtotal + 20
+      // if (app.globalData.arrSoiltotal >= 0) {
+      //   if (curindex == 0) {
+      //     arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
+      //   }
+      //   else if (curindex == 1) {
+      //     arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
+      //   }
+      //   else if (curindex == 2) {
+      //     arrSubstrtotal = arrSubstrtotal + app.globalData.arrSoiltotal
+      //   }
+      // } else {
+      //   if (curindex == 0) {
+      //     arrSubstrtotal = arrSubstrtotal 
+      //   }
+      //   else if (curindex == 1) {
+      //     arrSubstrtotal = arrSubstrtotal 
+      //   }
+      //   else if (curindex == 2) {
+      //     arrSubstrtotal = arrSubstrtotal 
+      //   }
+      // }
+      //arrSubstrtotal = arrSubstrtotal + 20
+      var finalT = arrSubstrtotal + 20
       var tmpCondition = (this.data.count < 10 ? 2 : 1)
       var discount = (this.data.count < 10 ? 1 : this.data.discount2)
-      this.setData({ subtotal: arrSubstrtotal, finalTotal: (arrSubstrtotal * this.data.count * discount).toFixed(1), condition: tmpCondition })
-    } else if (arrSubstrtotal == 0 && app.globalData.arrSoiltotal == 0) {
+      this.setData({ subtotal: finalT, finalTotal: (finalT * this.data.count * discount).toFixed(1), condition: tmpCondition })
+    } else if (arrSubstrtotal == 0) {
       this.setData({ subtotal: 0, finalTotal: 0})
     }
 
@@ -680,33 +681,47 @@ Page({
     var ft = this.data.finalTotal
     var condition = this.data.condition
     var plan = this.data.plan
-
+    if(c>100){
+      c = 100
+      this.setData({ count: c })
+    }
     if (c < 10) {
       //this.setData({ condition: 3 })
       //ft = (this.data.subtotal * c ).toFixed(1)
       if (plan){
-        switch (this.data.isPlan) {
-          // case 'A':
-          //   ft = (831.6 * c ).toFixed(1)
-          //   break
-          // case 'B':
-          //   ft = (1605.6 * c ).toFixed(1)
-          //   break
-          // case 'C':
-          //   ft = (2118.6 * c ).toFixed(1)
-          //   break
-          case 'A':
-            ft = (516 * 0.9 * c).toFixed(1)
-            break
-          case 'B':
-            ft = (946 * 0.9 * c).toFixed(1)
-            break
-          case 'C':
-            ft = (1286 * 0.9 * c).toFixed(1)
-            break
+        if(app.globalData.checkType==0){
+          switch (this.data.isPlan) {
+            case 'A':
+              ft = (516 * 0.9 * c).toFixed(1)
+              break
+            case 'B':
+              ft = (946 * 0.9 * c).toFixed(1)
+              break
+            case 'C':
+              ft = (1286 * 0.9 * c).toFixed(1)
+              break
+          }
         }
+        if (app.globalData.checkType == 1) {
+          switch (this.data.isPlan) {
+            case 'A':
+              ft = (408 * 0.9 * c).toFixed(1)
+              break
+            case 'B':
+              ft = (838 * 0.9 * c).toFixed(1)
+              break
+            case 'C':
+              ft = (1068 * 0.9 * c).toFixed(1)
+              break
+          }
+        }
+        
         this.setData({ condition: 0 })
-      }else{
+      } else if (app.globalData.arrSoilitem.length <= 2 && app.globalData.arrSoilitem.length > 0 || app.globalData.arrSubstritem.length <= 2 && app.globalData.arrSubstritem.length > 0){
+        // 如果是小于等于两个指标，显示加收20元样本费
+        ft = (this.data.subtotal * c).toFixed(1)
+        this.setData({ condition: 2 })
+      } else{
         ft = (this.data.subtotal * c).toFixed(1)
         this.setData({ condition: 3 })
       }
