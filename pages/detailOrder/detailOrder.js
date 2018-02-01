@@ -183,6 +183,7 @@ Page({
           reportUrl: res.data.data.orderInfo.report_url
           
         })
+        app.globalData.reportUrl = res.data.data.orderInfo.report_url
         //self.downloadReport()
       }
 
@@ -204,7 +205,7 @@ Page({
     var self = this
     if (this.data.reportUrl){
       wx.downloadFile({
-        url: this.data.reportUrl,
+        url: app.globalData.reportUrl,
         header: {},
         success: function (res) {
           console.log(res)

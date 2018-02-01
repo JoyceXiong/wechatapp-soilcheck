@@ -47,8 +47,6 @@
       <view class="verticalLine"></view> <view class="ordertittle">检测报告</view> 
     </view>
     <view class="line-css"></view>
-    <view class="flex-view-row content">
-      <button bindtap='downloadReport' wx:if="{{reportUrl}}">点击查看检测报告</button> 
-    </view> 
+      <button bindtap='downloadReport' class="topaytap" wx:if="{{reportUrl}}">点击查看检测报告</button> 
   </view>
 </scroll-view>
