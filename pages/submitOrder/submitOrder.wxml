@@ -38,7 +38,9 @@
       <text class="f-label">电子邮箱</text>
     </view>
     <view class='col-r'>
-        <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="emailBindblur" value='{{email}}' focus='{{emailFocus}}' /> 
+        <!-- <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="emailBindblur" value='{{email}}' focus='{{emailFocus}}' />  -->
+
+        <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true" value='{{email}}' focus='{{emailFocus}}' />
     </view>
   </view>
 
