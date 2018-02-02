@@ -1,7 +1,8 @@
 /* pages/payingOder/payingOder.wxss */
 .payingOder {
   background-color: #f8f8f8;
-  padding-bottom: 20px;
+  display: block;
+  width: 100%;
 }
 .contentView {
   display: block;
@@ -13,7 +14,8 @@
   margin-right: 15px;
   box-shadow: 0 1rpx 1rpx #8E8E8E;
   margin-top: 15px;
-  padding: 20rpx 0;
+  margin-bottom: 15px;
+  padding: 20rpx 0; 
   background-color: #fff;
 }
 .flex-view-row {
@@ -88,4 +90,139 @@
 }
 .add-p{
   display: block;
+}
+
+.root {
+  display:flex;
+  flex-direction:column;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background-color: #f8f8f8;
+}
+
+.bottom {  
+  /* position: absolute; */
+  border-top:1px solid #ddd;
+  /* width: 100%; */
+  /* height: 20%; */
+  flex:  0 0 auto;
+  background-color: #fff;
+}
+
+.btm-item{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  margin: 0 10px 5px 10px;
+  color:#878787;
+  font-size: 28rpx;
+  align-items:center;
+
+}
+
+.orders-cotainer {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+
+.show-btn {
+  margin-top: 100rpx;
+  color: #22cc22;
+}
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 9999;
+  background: #f9f9f9;
+  margin: -180rpx 105rpx;
+  border-radius: 36rpx;
+}
+
+.modal-title {
+  padding-top: 50rpx;
+  font-size: 36rpx;
+  color: #030303;
+  text-align: center;
+}
+
+.modal-content {
+  padding: 10rpx 50rpx;
+  text-align: center;
+  color: #030303;
+}
+
+.modal-input {
+  display: flex;
+  background: #fff;
+  border: 2rpx solid #ddd;
+  border-radius: 4rpx;
+  font-size: 28rpx;
+  margin-top: 20px;
+}
+
+
+.input {
+  width: 100%;
+  height: 82rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  color: #333;
+}
+
+input-holder {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 86rpx;
+  border-top: 1px solid #dedede;
+  font-size: 34rpx;
+  line-height: 86rpx;
+}
+
+.btn-cancel {
+  width: 50%;
+  color: #157AFB;
+  text-align: center;
+  border-right: 1px solid #dedede;
+}
+
+.btn-confirm {
+  width: 50%;
+  color: #157AFB;
+  text-align: center;
+}
+
+.btn-report {
+  background-color: #439CD9;
+  color: #ffffff;
+  margin: 15px 15px 10px 15px;
+  font-size: 14px;
+  width: 150px;
 }

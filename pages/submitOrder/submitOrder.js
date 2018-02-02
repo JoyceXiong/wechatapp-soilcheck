@@ -12,13 +12,16 @@ Page({
     address: '',
     email: '',
     plant: '',
-    area: 0,
+    area: '',
     getSoilDate: '2018-01-01',
     nameShow: false,
     phoneShow: false,
     addrShow: false,
     plantShow: false,
-    getSoilDateShow: false
+    getSoilDateShow: false,
+    phoneFocus: false,
+    emailFocus: false,
+    btnDisabel: false,
 
   },
   bindNameInput: function (e) {
@@ -31,7 +34,7 @@ Page({
   bindPhoneInput: function (e) {
     var self = this
     if (!e.detail.value || e.detail.value.trim().length == 0) {
-      this.setData({ phoneShow: true, phone: '' })
+      this.setData({ phoneShow: true, phone: '', phoneFocus: false })
     }
     var phone = e.detail.value
     var reg = /^((0\d{2,3}\d{7,8})|(1[34578]\d{9}))$/
@@ -41,11 +44,11 @@ Page({
       }else {
         wx.showModal({
           title: '提醒',
-          content: '电话号码不正确，请重新填写',
+          content: '电话号码不正确，请重新填写。座机请加区号',
           showCancel: false,
           success: function (res) {
             if (res.confirm) {
-              self.setData({ phoneShow: true,phone: '' })
+              self.setData({ phoneFocus: true, phone: e.detail.value })
             }
           }
         })
@@ -64,22 +67,25 @@ Page({
     var self = this
     var mail = e.detail.value
     var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-    if (mail){
+    if (mail.trim().length>0){
       if (reg.test(mail)) {
-        this.setData({ email: e.detail.value })
+        this.setData({ email: e.detail.value, emailFocus: false })
       } else {
         wx.showModal({
           title: '提醒',
-          content: '邮箱格式不正确，请填写正确的邮箱',
+          content: '邮箱格式不正确，请正确填写或者不填',
           showCancel: false,
           success: function (res) {
             if (res.confirm) {
-              self.setData({ email: '' })
+              self.setData({ email: e.detail.value, emailFocus: true})
             } 
           }
         })
       }
+    }else{
+      self.setData({ email: e.detail.value, emailFocus: false })
     } 
+    console.log("input-email:",mail)
     
     
   },
@@ -93,7 +99,7 @@ Page({
   bindAreaInput: function (e) {
     var myarea = 0
     if (isNaN(parseFloat(e.detail.value))){
-      myarea = 0
+      myarea = ''
     } else {
       myarea = parseFloat(e.detail.value).toFixed(1)
     }
@@ -118,10 +124,32 @@ Page({
       this.setData({ phoneShow: true })
 
     }
+    if (!/^((0\d{2,3}\d{7,8})|(1[34578]\d{9}))$/.test(this.data.phone)){
+
+      wx.showModal({
+        title: '提示',
+        content: '电话号码不正确，请正确填写后在提交订单',
+        showCancel: false,
+        
+      })
+      return
+    }
     if (!this.data.address  || this.data.address.trim().length == 0) {
       this.setData({ addrShow: true })
       
     }
+    if ((this.data.email).trim().length>0){
+      console.log(this.data.email)
+      if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.data.email)) {
+        wx.showModal({
+          title: '提示',
+          content: '邮箱格式不正确，请正确填写或者不填，然后再提交订单',
+          showCancel: false,
+        })
+        return
+      }
+    }
+    
     if (!this.data.plant  || this.data.plant.trim().length == 0) {
       this.setData({ plantShow: true })
 
@@ -259,7 +287,7 @@ Page({
   },
   /* 支付   */
   pay: function (param) {
-
+    var self = this
     wx.requestPayment({
       timeStamp: param.timeStamp,
       nonceStr: param.nonceStr,
@@ -302,7 +330,7 @@ Page({
         
       },
       complete: function () {
-        // complete      
+        self.setData({ btnDisabel: true})      
       }
     })
   },
@@ -340,7 +368,6 @@ Page({
           email: res.data.data.myAddress.email,
           plant: res.data.data.myAddress.plant,
           area: res.data.data.myAddress.area,
-          getSoilDate: res.data.data.myAddress.get_time
         })
       }
     })
@@ -357,7 +384,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
+    var curDate = util.formatTime(new Date()).substr(0, 10)
+    this.setData({ getSoilDate: curDate ,btnDisable: false})
+    console.log(curDate)
+
+
   },
 
   /**

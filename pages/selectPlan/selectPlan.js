@@ -739,6 +739,7 @@ Page({
       wx.showModal({
         title: '提示',
         content: '请至少选择一个检测项目',
+        showCancel: false,
         success: function (res) {
           if (res.confirm) {
 

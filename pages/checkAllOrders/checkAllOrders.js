@@ -38,7 +38,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ myOrders{id, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}"
+          "query": "{ myOrders(page:1, limit:999){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
         }      
       },
       method: 'POST',
@@ -47,8 +47,9 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        if (res.data.data.myOrders && res.data.data.myOrders.length>0){
-          var arr = res.data.data.myOrders
+        console.log("orders:",res)
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length>0){
+          var arr = res.data.data.myOrders.orders
           var tmparr = arr.map(x => ({
             id: x.id,
             examine_soil: x.examine_soil,

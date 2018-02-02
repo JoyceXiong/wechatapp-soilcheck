@@ -15,7 +15,11 @@ Page({
     total:0,
     name:'',
     phone:'',
-    address:'',
+    address: '',
+    email: '',
+    area: 0,
+    plant: '',
+    getSoilTime: '2018-01-01',
     orderTime: '',
     soilShow: true,
     stromaShow: true,
@@ -23,7 +27,10 @@ Page({
     receivePhone: '15112345678',
     receiveAddr: '北京市朝阳区时间国际8号楼1510',
     report: '',
-    reportUrl: ''
+    reportUrl: '',
+    hiddenmodalput: true,
+    showModal: false,
+    emailFocus: false,
   },
   soilSampleTap: function () {
     wx.navigateTo({
@@ -150,7 +157,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ orderInfo(id:\"" + this.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime, report_url }}"
+          "query": "{ orderInfo(id:\"" + this.orderid + "\"){id, user{id, nick}, recipient{name, mobile, address, email, area, plant, get_time}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime, report_url }}"
         }
       },
       method: "POST",
@@ -178,6 +185,10 @@ Page({
           name: res.data.data.orderInfo.recipient.name,
           phone: res.data.data.orderInfo.recipient.mobile,
           address: res.data.data.orderInfo.recipient.address,
+          email: res.data.data.orderInfo.recipient.email,
+          area: res.data.data.orderInfo.recipient.area,
+          plant: res.data.data.orderInfo.recipient.plant,
+          getSoilTime: res.data.data.orderInfo.recipient.get_time,
           orderTime: new Date(res.data.data.orderInfo.ctime).toLocaleString(),
           orderid: self.orderid,
           reportUrl: res.data.data.orderInfo.report_url
@@ -209,7 +220,7 @@ Page({
         header: {},
         success: function (res) {
           console.log(res)
-          self.setData({ reportUrl: res.tempFilePath })
+          // self.setData({ reportUrl: res.tempFilePath })
           wx.openDocument({
             filePath: res.tempFilePath,
             success: res => {
@@ -270,5 +281,89 @@ Page({
    */
   onShareAppMessage: function () {
   
-  }
+  },
+
+  //弹出输入框
+
+  // modalinput: function () {
+  //   this.setData({
+  //     hiddenmodalput: !this.data.hiddenmodalput
+  //   })
+  // },
+  // //取消按钮  
+  // cancel: function () {
+  //   this.setData({
+  //     hiddenmodalput: true
+  //   });
+  // },
+  // //确认  
+  // confirm: function () {
+  //   this.setData({
+  //     hiddenmodalput: true
+  //   })
+  // }  
+
+
+
+  /**
+     * 弹窗
+     */
+  showDialogBtn: function () {
+    this.setData({
+      showModal: true
+    })
+  },
+  /**
+   * 弹出框蒙层截断touchmove事件
+   */
+  preventTouchMove: function () {
+  },
+  /**
+   * 隐藏模态对话框
+   */
+  hideModal: function () {
+    this.setData({
+      showModal: false
+    });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.hideModal();
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function () {
+    var self = this
+    var mail = this.data.email
+    var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+    if (mail) {
+      if (reg.test(mail)) {
+        this.setData({ email: e.detail.value, emailFocus: false })
+        this.hideModal();
+      } else {
+        wx.showModal({
+          title: '提醒',
+          content: '邮箱格式不正确，请填写正确的邮箱',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              self.setData({  emailFocus: true })
+            }
+          }
+        })
+      }
+    }
+  },
+  /**
+   * 对话框输入框事件
+   */
+  inputChange: function (e) {
+    console.log(e.detail.value)
+    this.setData({ email: e.detail.value})
+  },
+
+
 })

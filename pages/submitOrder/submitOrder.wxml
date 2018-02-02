@@ -18,7 +18,7 @@
       <text class="f-label">* 电  话</text>
     </view>
     <view class='col-r'>
-        <input class="sender-input" type="number" maxlength="17" bindblur="bindPhoneInput" value='{{phone}}' placeholder='请输入联系电话' placeholder-style="color: rgba(186, 186, 186, 1)" />   
+        <input class="sender-input" type="number" maxlength="17" bindblur="bindPhoneInput" value='{{phone}}' focus='{{phoneFocus}}' placeholder='请输入联系电话' placeholder-style="color: rgba(186, 186, 186, 1)" />   
     </view>
   </view>
   <text class="sender-nullShow" style='color:red;font-size:12px;' wx:if="{{phoneShow}}">*  手机号不能为空</text>
@@ -38,7 +38,7 @@
       <text class="f-label">电子邮箱</text>
     </view>
     <view class='col-r'>
-        <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="emailBindblur" value='{{email}}' /> 
+        <input class="sender-input" placeholder='请输入电子邮箱（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="emailBindblur" value='{{email}}' focus='{{emailFocus}}' /> 
     </view>
   </view>
 
@@ -58,7 +58,7 @@
       <text class="f-label">种植面积(亩)</text>
     </view>
     <view class='col-r'>
-        <input class="sender-input" type="digit" placeholder='请输入种植面积（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='100' auto-height="true"  bindblur="bindAreaInput" value='{{area}}'></input> 
+        <input class="sender-input" type="digit" placeholder='请输入种植面积（选填）'placeholder-style="color: rgba(186, 186, 186, 1)" maxlength='11' auto-height="true"  bindblur="bindAreaInput" value='{{area}}'></input> 
     </view>
   </view>
 
@@ -91,4 +91,4 @@
 
 
 </scrol-view>
-<button class="nextBtn" bindtap='submittap'>提交订单</button>
+<button class="nextBtn" bindtap='submittap' disabled='{{btnDisabel}}'>提交订单</button>
