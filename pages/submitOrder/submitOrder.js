@@ -63,7 +63,6 @@ Page({
     }
   },
   emailBindblur: function (e) {
-    // console.log("e.detail.value:", e.detail.value)
     var self = this
     var mail = e.detail.value
     var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
@@ -85,7 +84,6 @@ Page({
     }else{
       self.setData({ email: e.detail.value, emailFocus: false })
     } 
-    console.log("input-email:",mail)
     
   },
   bindAddressInput:function(e){
@@ -108,7 +106,6 @@ Page({
     this.setData({ area: myarea})
   },
   bindDateChange: function (e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({ getSoilDateShow: false })
     this.setData({ getSoilDate: e.detail.value })
     if (!e.detail.value || e.detail.value.trim().length == 0) {
@@ -141,7 +138,6 @@ Page({
     }
 
     if (this.data.email&&(this.data.email).trim().length>0){
-      console.log(this.data.email)
       if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.data.email)) {
         wx.showModal({
           title: '提示',
@@ -166,8 +162,7 @@ Page({
     } 
 
     // 姓名、电话、地址、种植作物、取土时间 都不为空，方可执行添加地址请求
-    if (!this.data.nameShow && !this.data.phoneShow && !this.data.addrShow && !this.data.plantShow && !this.data.getSoilDateShow) {    
-      console.log("this.data.area:", this.data.area)
+    if (!this.data.nameShow && !this.data.phoneShow && !this.data.addrShow && !this.data.plantShow && !this.data.getSoilDateShow) {  
       wx.request({
         url: 'https://api-dev.daqiuyin.com/api',
         data: {
@@ -184,14 +179,10 @@ Page({
           'x-auth-token': app.globalData.token
         },
         success: function (res) {
-          console.log("app.globalData.arrSoilitem:", app.globalData.arrSoilitem)
-          console.log("app.globalData.arrSubstritem:", app.globalData.arrSubstritem)
           if (app.globalData.arrSoilitem && app.globalData.arrSubstritem && app.globalData.count && app.globalData.finalTotal) {
             var arrSoilitem = []
             var arrSubstritem = []
-            console.log("arrSubstritem:", arrSubstritem)
             arrSubstritem = ''
-            console.log("clear-arrSubstritem:", arrSubstritem)
 
             if (app.globalData.checkType == 0) {
               arrSoilitem = (app.globalData.arrSoilitem.map(x => x.abbr)).map(x => ('"' + x + '"'))
@@ -341,7 +332,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("app.globalData.token:", app.globalData.token)
     var curDate = util.formatTime(new Date()).substr(0, 10)
     this.setData({ getSoilDate: curDate})
     // 获取收货信息，没有则手动填写
@@ -362,7 +352,6 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        console.log(res)
         self.setData({
           name: res.data.data.myAddress.name,
           phone: res.data.data.myAddress.mobile,
@@ -389,7 +378,6 @@ Page({
 
     var curDate = util.formatTime(new Date()).substr(0, 10)
     this.setData({ getSoilDate: curDate ,btnDisable: false})
-    console.log(curDate)
 
 
   },

@@ -4,7 +4,7 @@
   <view class="check-item" wx:if="{{soilShow && checkType==0}}">土壤种植检测【{{arrSoilitem}}】</view>
   <view class="check-item" wx:if="{{stromaShow && checkType==1}}">基质种植检测【{{arrSubstritem}}】</view>
   
-  <view class="check-item">土样数：{{count}}</view>
+  <view class="check-item">样本数：{{count}}</view>
   <view class="check-item">总计金额：{{total}}元</view>
 </scroll-view>
 <button class="nextBtn" bindtap='nexttap'>下一步</button>

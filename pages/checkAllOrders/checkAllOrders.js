@@ -28,7 +28,6 @@ Page({
   // 订单状态:['initial', 'expired', 'paid', 'examined', 'shipped', 'canceled', 'refunded']
   // examined, shipped都是已完成
   getAllOrders (cb) {
-    // console.log("app.globalData.token:", app.globalData.token)
     const self = this
     self.setData({ _num: app.globalData.payCode})
     wx.request({
@@ -47,7 +46,6 @@ Page({
         'x-auth-token': app.globalData.token
       },
       success: function (res) {
-        console.log("orders:",res)
         if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length>0){
           var arr = res.data.data.myOrders.orders
           var tmparr = arr.map(x => ({

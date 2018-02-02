@@ -42,7 +42,6 @@ Page({
     var self = this;
     var that = this;
     var total = Number(this.data.total * 100).toFixed(0);
-    console.log(this.data);
     // 获取微信支付参数
     wx.request({
       url: "https://api-dev.daqiuyin.com/api",
@@ -82,7 +81,6 @@ Page({
   },
   /* 支付   */
   pay: function (param) {
-    //console.log("param:",param)
     var self = this
     wx.requestPayment({
       timeStamp: param.timeStamp,
@@ -92,7 +90,6 @@ Page({
       paySign: param.paySign,
       success: function (res) {
         // success
-        console.log("到支付这里")
         wx.showToast({
           title: '支付成功',
           icon: 'success',
@@ -146,7 +143,6 @@ Page({
     // this.setScrollViewHeight();
     // 获取订单详情
     this.getOrderDetail();
-    console.log("options.orderid:", options.orderid)
   },
 
   getOrderDetail:function(){
@@ -167,8 +163,6 @@ Page({
         "x-auth-token": app.globalData.token
       },
       success: function (res) {
-        console.log(res)
-        
         app.globalData.finalTotal = res.data.data.orderInfo.amount
         var arrSoil = res.data.data.orderInfo.examine_soil.map(x => x.display)
         var arrStroma = res.data.data.orderInfo.examine_stroma.map(x => x.display)
@@ -221,12 +215,10 @@ Page({
         url: app.globalData.reportUrl,
         header: {},
         success: function (res) {
-          console.log(res)
           // self.setData({ reportUrl: res.tempFilePath })
           wx.openDocument({
             filePath: res.tempFilePath,
             success: res => {
-              console.log("打开文件成功:", res)
             }
           })
         },
@@ -363,7 +355,6 @@ Page({
    * 对话框输入框事件
    */
   inputChange: function (e) {
-    console.log(e.detail.value)
     this.setData({ email: e.detail.value})
   },
 
