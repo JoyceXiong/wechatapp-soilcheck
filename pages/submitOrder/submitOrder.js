@@ -130,7 +130,7 @@ Page({
 
       wx.showModal({
         title: '提示',
-        content: '电话号码不正确，请正确填写后在提交订单',
+        content: '电话号码不正确，请正确填写后再提交订单',
         showCancel: false
       })
       return

@@ -18,6 +18,7 @@
       <view class="flex-view-row content">检测项目：</view> 
       <view class="flex-view-row content" wx:if="{{soilShow}}">土壤种植检测【{{arrSoilItem}}】</view> 
       <view class="flex-view-row content" wx:if="{{stromaShow}}">基质种植检测【{{arrSubstrateItem}}】</view> 
+      <view class="flex-view-row content">样本数：{{quantity}}</view>
       <view class="flex-view-row content">订单金额：{{total}}元</view> 
       <view class="flex-view-row content">下单时间：{{orderTime}}</view>
       <view class="soilsample content" wx:if="{{status == 'paid'}}">请根据 <text class="soilsample1" bindtap='soilSampleTap'>土壤采样说明</text>   进行操作，并将采集好的土样邮寄到以下地址：</view>
