@@ -87,7 +87,9 @@ Page({
     } 
     console.log("input-email:",mail)
     
-    
+  },
+  bindAddressInput:function(e){
+    this.setData({ email: e.detail.value })
   },
   bindPlantInput: function (e) {
     this.setData({ plantShow: false })
@@ -129,16 +131,16 @@ Page({
       wx.showModal({
         title: '提示',
         content: '电话号码不正确，请正确填写后在提交订单',
-        showCancel: false,
-        
+        showCancel: false
       })
       return
     }
     if (!this.data.address  || this.data.address.trim().length == 0) {
       this.setData({ addrShow: true })
-      
+
     }
-    if ((this.data.email).trim().length>0){
+
+    if (this.data.email&&(this.data.email).trim().length>0){
       console.log(this.data.email)
       if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.data.email)) {
         wx.showModal({
