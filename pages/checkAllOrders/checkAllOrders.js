@@ -27,30 +27,32 @@ Page({
   // 获取全部订单信息
   // 订单状态:['initial', 'expired', 'paid', 'examined', 'shipped', 'canceled', 'refunded']
   // examined, shipped都是已完成
-  getAllOrders (cb) {
+  getAllOrders () {
+    delete this.data.allorders
+    delete this.data.showorders
     const self = this
     self.isLoading = true
     self.setData({ _num: app.globalData.payCode})
-    console.log("app.globalData.payCode:", app.globalData.payCode)
+    console.log("getAllOrders.payCode:", app.globalData.payCode)
     var states = ''
-    switch (app.globalData.payCode) {
-      case 1:
+    switch (app.globalData.payCode.toString()) {
+      case '1':
         break
-      case 2:
+      case '2':
         states = 'states: ["initial"]'
         break
-      case 3:
+      case '3':
         states = 'states: ["paid"]'
         break
-      case 4:
+      case '4':
         states = 'states: ["shipped", "examined"]'
         break
-      case 5:
+      case '5':
         states = 'states: ["canceled"]'
         break
 
     }
-    
+    console.log("getAllOrders-states:", states)
     wx.request({
       url: 'https://api-dev.daqiuyin.com/api',
       data: {
@@ -86,8 +88,10 @@ Page({
             isShow: false,
             totalPage: Math.ceil(res.data.data.myOrders.total / 10)
           })
+          console.log("getAllOrders-tmparr:", tmparr)
+          console.log("getAllOrders-totalPage:", self.data.totalPage)
           // switch(app.globalData.payCode){
-          //   case 1:
+          //   case '1':
           //     if (tmparr.length > 0){
           //       self.setData({
           //         showorders: tmparr,
@@ -100,7 +104,7 @@ Page({
           //       })
           //     }
           //     break
-          //   case 2:
+          //   case '2':
           //     var arrInitail = tmparr.filter(x => x.status == 'initial')
           //     if (arrInitail.length > 0) {
           //       self.setData({
@@ -114,7 +118,7 @@ Page({
           //       })
           //     }
           //     break
-          //   case 3:
+          //   case '3':
           //     var arrPaid = tmparr.filter(x => x.status == 'paid')
           //     if (arrPaid.length > 0) {
           //       self.setData({
@@ -128,7 +132,7 @@ Page({
           //       })
           //     }
           //     break
-          //   case 4:
+          //   case '4':
           //     var arrShipped = tmparr.filter(x => x.status == 'shipped')
           //     if (arrShipped.length > 0) {
           //       self.setData({
@@ -170,9 +174,6 @@ Page({
           // wx.hideLoading()
           self.isLoading = false;
         }
-        if (cb){
-          cb();
-        }
       }
     })
   },
@@ -180,7 +181,8 @@ Page({
     var self = this
     this.setData({
       _num: e.target.dataset.num,
-      showorders:[]
+      showorders:[],
+      pageNumber:1
     })
     app.globalData.payCode = e.target.dataset.num
     // var arrOrders = this.data.allorders
@@ -242,7 +244,8 @@ Page({
     var self = this
     this.setData({
       _num: e.target.dataset.num,
-      showorders: []
+      showorders: [],
+      pageNumber: 1
     })
     app.globalData.payCode = e.target.dataset.num
     // var arrOrders = this.data.allorders
@@ -311,7 +314,8 @@ Page({
     var self = this
     this.setData({
       _num: e.target.dataset.num,
-      showorders: []
+      showorders: [],
+      pageNumber: 1
     })
     app.globalData.payCode = e.target.dataset.num
     // var arrOrders = this.data.allorders
@@ -381,7 +385,8 @@ Page({
     var self = this
     this.setData({
       _num: e.target.dataset.num,
-      showorders: []
+      showorders: [],
+      pageNumber: 1
     })
     app.globalData.payCode = e.target.dataset.num
     // var arrOrders = this.data.allorders
@@ -454,7 +459,8 @@ Page({
     var self = this
     this.setData({
       _num: e.target.dataset.num,
-      showorders: []
+      showorders: [],
+      pageNumber: 1
     })
     app.globalData.payCode = e.target.dataset.num
     // var arrOrders = this.data.allorders
@@ -560,7 +566,11 @@ Page({
    */
   onShow: function () {
     //this.refreshData()
+    console.log("onShow.payCode:", app.globalData.payCode)
+    console.log(typeof (app.globalData.payCode))
     this.getAllOrders()
+    console.log("onShow-allorders", this.data.allorders)
+    console.log("onShow-showorders", this.data.showorders)
   },
 
   /**
@@ -582,8 +592,8 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("pulldown-paycode:", app.globalData.payCode)
-    this.getAllOrders()
-    //this.refreshData();
+     
+    this.refreshData();
     // 
     
     //
@@ -598,10 +608,10 @@ Page({
 
   refreshData:function(){
     
-    var that = this;
-    delete that.data.allorders
-    delete that.data.showorders 
-    that.isLoading = true;
+    // var that = this;
+    // delete that.data.allorders
+    // delete that.data.showorders 
+    // that.isLoading = true;
     // wx.showNavigationBarLoading() //在标题栏中显示加载
     // wx.showLoading({
     //   title: '加载中...',
@@ -641,6 +651,85 @@ Page({
     //     }
     //   }
     // });
+    delete this.data.allorders
+    delete this.data.showorders
+    this.setData({pageNumber: 1})
+    const self = this
+    self.isLoading = true
+
+    console.log("refresh.payCode:", app.globalData.payCode)
+    console.log(typeof (app.globalData.payCode))
+    var states = ''
+    switch (app.globalData.payCode.toString()) {
+      case '1':
+        break
+      case '2':
+        states = 'states: ["initial"]'
+        break
+      case '3':
+        states = 'states: ["paid"]'
+        break
+      case '4':
+        states = 'states: ["shipped", "examined"]'
+        break
+      case '5':
+        states = 'states: ["canceled"]'
+        break
+
+    }
+    console.log("getAllOrders-states:", states)
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10," + states + "){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          var tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            allorders: tmparr,
+            showorders: tmparr,
+            isShow: false,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+          console.log("getAllOrders-tmparr:", tmparr)
+          console.log("getAllOrders-totalPage:", self.data.totalPage)
+
+        } else {
+          self.setData({ isShow: true })
+        }
+
+      },
+      complete: function () {
+        if (self.isLoading) {
+          // wx.hideNavigationBarLoading() //完成停止加载
+          wx.stopPullDownRefresh() //停止下拉刷新
+          // wx.hideLoading()
+          self.isLoading = false;
+        }
+      }
+    }) 
   },
 
   /**
@@ -656,19 +745,19 @@ Page({
     })
     var showlist = self.data.showorders
     var states =''
-    switch (app.globalData.payCode){
-      case 1:
+    switch (app.globalData.payCode.toString()){
+      case '1':
         break
-      case 2:
+      case '2':
         states = 'states: ["initial"]'
         break
-      case 3:
+      case '3':
         states = 'states: ["paid"]'
         break
-      case 4:
+      case '4':
         states = 'states: ["shipped", "examined"]'
         break 
-      case 5:
+      case '5':
         states = 'states: ["canceled"]' 
         break
 
