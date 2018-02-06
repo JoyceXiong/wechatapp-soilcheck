@@ -22,6 +22,7 @@ Page({
     isPlan: 'C',
     plan: true,
     checkType: null,
+    btnDisabled: false,
     items: [
       { id: 0, name: '基础套餐'},
       { id: 1, name: '豪华套餐' },
@@ -748,6 +749,7 @@ Page({
       })
       return
     }else{
+      this.setData({ btnDisabled: true })
       wx.navigateTo({
         url: '../checkPlan/checkPlan'
       })

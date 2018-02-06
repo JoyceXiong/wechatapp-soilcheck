@@ -7,5 +7,5 @@
   <view class="check-item">样本数：{{count}}</view>
   <view class="check-item">总计金额：{{total}}元</view>
 </scroll-view>
-<button class="nextBtn" bindtap='nexttap'>下一步</button>
+<button class="nextBtn" bindtap='nexttap' disabled='{{btnDisabled}}'>下一步</button>
 

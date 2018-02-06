@@ -12,9 +12,11 @@ Page({
     total:0,
     soilShow: true,
     stromaShow: true,
-    checkType: null
+    checkType: null,
+    btnDisabled: false,
   },
   nexttap: function () {
+    this.setData({ btnDisabled: true })
     wx.navigateTo({
       url: '../submitOrder/submitOrder',
     })

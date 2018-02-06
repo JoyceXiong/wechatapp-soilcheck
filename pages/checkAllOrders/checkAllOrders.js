@@ -12,9 +12,9 @@ Page({
     showorders: {},
     _num:1,
     // 当前页
-    //pageNumber: 1,
+    pageNumber: 1,
     // 总页数
-    //totalPage: 100,
+    totalPage: 1,
     isShow: false
 
   },
@@ -29,7 +29,28 @@ Page({
   // examined, shipped都是已完成
   getAllOrders (cb) {
     const self = this
+    self.isLoading = true
     self.setData({ _num: app.globalData.payCode})
+    console.log("app.globalData.payCode:", app.globalData.payCode)
+    var states = ''
+    switch (app.globalData.payCode) {
+      case 1:
+        break
+      case 2:
+        states = 'states: ["initial"]'
+        break
+      case 3:
+        states = 'states: ["paid"]'
+        break
+      case 4:
+        states = 'states: ["shipped", "examined"]'
+        break
+      case 5:
+        states = 'states: ["canceled"]'
+        break
+
+    }
+    
     wx.request({
       url: 'https://api-dev.daqiuyin.com/api',
       data: {
@@ -37,7 +58,7 @@ Page({
         "method": "POST",
         "path": "/portal/ql",
         "data": {
-          "query": "{ myOrders(page:1, limit:999){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+          "query": "{ myOrders(page:1, limit:10," + states +"){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
         }      
       },
       method: 'POST',
@@ -61,7 +82,9 @@ Page({
           ))
           self.setData({
             allorders: tmparr,
-            isShow: false
+            showorders: tmparr,
+            isShow: false,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
           })
           // switch(app.globalData.payCode){
           //   case 1:
@@ -154,116 +177,347 @@ Page({
     })
   },
   showAll: function (e) {
+    var self = this
     this.setData({
       _num: e.target.dataset.num,
       showorders:[]
     })
     app.globalData.payCode = e.target.dataset.num
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0){
-      this.setData({
-        showorders: arrOrders,
-        isShow: false
-      })
-    }
+    // var arrOrders = this.data.allorders
+    // if (arrOrders.length > 0){
+    //   this.setData({
+    //     showorders: arrOrders,
+    //     isShow: false
+    //   })
+    // }
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        var tmparr = []
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            isShow: false,
+            allorders: tmparr,
+            showorders: tmparr,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+
+        } else {
+          self.setData({
+            isShow: true,
+            showorders: tmparr
+          })
+        }
+
+      }
+    })
     
   },
   showPaying: function (e) {
+    var self = this
     this.setData({
       _num: e.target.dataset.num,
       showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0) {
-      arrOrders = arrOrders.filter(x => x.status == 'initial')
-      if (arrOrders.length > 0) {
-        this.setData({
-          isShow: false,
-          showorders: arrOrders
-        })
-      } else {
-        this.setData({
-          isShow: true,
-          showorders: arrOrders
-        })
+    // var arrOrders = this.data.allorders
+    // if (arrOrders.length > 0) {
+    //   arrOrders = arrOrders.filter(x => x.status == 'initial')
+    //   if (arrOrders.length > 0) {
+    //     this.setData({
+    //       isShow: false,
+    //       showorders: arrOrders
+    //     })
+    //   } else {
+    //     this.setData({
+    //       isShow: true,
+    //       showorders: arrOrders
+    //     })
+    //   }
+    // }
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10,states:[\"initial\"]){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        var tmparr = []
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            isShow: false,
+            showorders: tmparr,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+
+        }else {
+          self.setData({
+            isShow: true,
+            showorders: tmparr
+          })
+        }
+
       }
-    }
+    })
     
   },
   showchecking: function (e) {
+    var self = this
     this.setData({
       _num: e.target.dataset.num,
       showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0) {
-      arrOrders = arrOrders.filter(x => x.status == 'paid')
-      if (arrOrders.length > 0) {
-        isShow: false,
-        this.setData({
-          isShow: false,
-          showorders: arrOrders
-        })
-      } else {
-        this.setData({
-          isShow: true,
-          showorders: arrOrders
-        })
+    // var arrOrders = this.data.allorders
+    // if (arrOrders.length > 0) {
+    //   arrOrders = arrOrders.filter(x => x.status == 'paid')
+    //   if (arrOrders.length > 0) {
+    //     isShow: false,
+    //     this.setData({
+    //       isShow: false,
+    //       showorders: arrOrders
+    //     })
+    //   } else {
+    //     this.setData({
+    //       isShow: true,
+    //       showorders: arrOrders
+    //     })
+    //   }
+    // }
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10,states:[\"paid\"]){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        var tmparr = []
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            isShow: false,
+            showorders: tmparr,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+
+        } else {
+          self.setData({
+            isShow: true,
+            showorders: tmparr
+          })
+        }
+
       }
-    }
+    })
     
   },
   showFinished: function  (e) {
+    var self = this
     this.setData({
       _num: e.target.dataset.num,
       showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0) {
-      var shippedArr = arrOrders.filter(x => x.status == 'shipped')
-      var examinedArr = arrOrders.filter(x => x.status == 'examined')
-      arrOrders = shippedArr.concat(examinedArr)
+    // var arrOrders = this.data.allorders
+    // if (arrOrders.length > 0) {
+    //   var shippedArr = arrOrders.filter(x => x.status == 'shipped')
+    //   var examinedArr = arrOrders.filter(x => x.status == 'examined')
+    //   arrOrders = shippedArr.concat(examinedArr)
       
-      if (arrOrders.length > 0) {
+    //   if (arrOrders.length > 0) {
         
-        this.setData({
-          isShow: false,
-          showorders: arrOrders
-        })
-      } else {
-        this.setData({
-          isShow: true,
-          showorders: arrOrders
-        })
+    //     this.setData({
+    //       isShow: false,
+    //       showorders: arrOrders
+    //     })
+    //   } else {
+    //     this.setData({
+    //       isShow: true,
+    //       showorders: arrOrders
+    //     })
+    //   }
+    // }
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10,states:[\"examined\",\"shipped\"]){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        var tmparr = []
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            isShow: false,
+            showorders: tmparr,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+
+        } else {
+          self.setData({
+            isShow: true,
+            showorders: tmparr
+          })
+        }
+
       }
-    }
+    })
     
   },
   showClosed: function (e) {
+    var self = this
     this.setData({
       _num: e.target.dataset.num,
       showorders: []
     })
     app.globalData.payCode = e.target.dataset.num
-    var arrOrders = this.data.allorders
-    if (arrOrders.length > 0){
-      arrOrders = arrOrders.filter(x => x.status == 'canceled')
-      if (arrOrders.length > 0) {
+    // var arrOrders = this.data.allorders
+    // if (arrOrders.length > 0){
+    //   arrOrders = arrOrders.filter(x => x.status == 'canceled')
+    //   if (arrOrders.length > 0) {
         
-        this.setData({
-          isShow: false,
-          showorders: arrOrders
-        })
-      } else {
-        this.setData({
-          isShow: true,
-          showorders: arrOrders
-        })
+    //     this.setData({
+    //       isShow: false,
+    //       showorders: arrOrders
+    //     })
+    //   } else {
+    //     this.setData({
+    //       isShow: true,
+    //       showorders: arrOrders
+    //     })
+    //   }
+    // }
+    wx.request({
+      url: 'https://api-dev.daqiuyin.com/api',
+      data: {
+        "service": "portal",
+        "method": "POST",
+        "path": "/portal/ql",
+        "data": {
+          "query": "{ myOrders(page:1, limit:10,states:[\"canceled\"]){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+        }
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json', // 默认值
+        'x-auth-token': app.globalData.token
+      },
+      success: function (res) {
+        var tmparr = []
+        if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+          var arr = res.data.data.myOrders.orders
+          tmparr = arr.map(x => ({
+            id: x.id,
+            examine_soil: x.examine_soil,
+            examine_stroma: x.examine_stroma,
+            amount: x.amount,
+            ctime: new Date(x.ctime).toLocaleString(),
+            ptime: new Date(x.ptime).toLocaleString(),
+            quantity: x.quantity,
+            status: x.status
+          }
+          ))
+          self.setData({
+            isShow: false,
+            showorders: tmparr,
+            totalPage: Math.ceil(res.data.data.myOrders.total / 10)
+          })
+
+        } else {
+          self.setData({
+            isShow: true,
+            showorders: tmparr
+          })
+        }
+
       }
-    }
+    })
   },
   
 
@@ -305,7 +559,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.refreshData()
+    //this.refreshData()
+    this.getAllOrders()
   },
 
   /**
@@ -326,9 +581,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
-
-    this.refreshData();
+    console.log("pulldown-paycode:", app.globalData.payCode)
+    this.getAllOrders()
+    //this.refreshData();
     // 
     
     //
@@ -342,89 +597,133 @@ Page({
   },
 
   refreshData:function(){
-
-    var self = this;
     
-    this.isLoading = true;
+    var that = this;
+    delete that.data.allorders
+    delete that.data.showorders 
+    that.isLoading = true;
     // wx.showNavigationBarLoading() //在标题栏中显示加载
     // wx.showLoading({
     //   title: '加载中...',
     // })
-    this.getAllOrders(function () {
-      var arrOrders = self.data.allorders
-      if (arrOrders.length > 0) {
-        switch (app.globalData.payCode+'') {
-          case '1':
-            break
-          case '2':
-            arrOrders = arrOrders.filter(x => x.status == 'initial')
-            break
-          case '3':
-            arrOrders = arrOrders.filter(x => x.status == 'paid')
-            break
-          case '4':
-            var shippedOrders = arrOrders.filter(x => x.status == 'shipped')
-            var examinedOrders = arrOrders.filter(x => x.status == 'examined')
-            arrOrders = shippedOrders.concat(examinedOrders)
-            break
-          case '5':
-            arrOrders = arrOrders.filter(x => x.status == 'canceled')
-            break
-        }
-        if (arrOrders.length > 0) {
+    // this.getAllOrders(function () {
+    //   var arrOrders = self.data.allorders
+    //   if (arrOrders.length > 0) {
+    //     switch (app.globalData.payCode+'') {
+    //       case '1':
+    //         break
+    //       case '2':
+    //         arrOrders = arrOrders.filter(x => x.status == 'initial')
+    //         break
+    //       case '3':
+    //         arrOrders = arrOrders.filter(x => x.status == 'paid')
+    //         break
+    //       case '4':
+    //         var shippedOrders = arrOrders.filter(x => x.status == 'shipped')
+    //         var examinedOrders = arrOrders.filter(x => x.status == 'examined')
+    //         arrOrders = shippedOrders.concat(examinedOrders)
+    //         break
+    //       case '5':
+    //         arrOrders = arrOrders.filter(x => x.status == 'canceled')
+    //         break
+    //     }
+    //     if (arrOrders.length > 0) {
 
-          self.setData({
-            isShow: false,
-            showorders: arrOrders
-          })
-        } else {
-          self.setData({
-            isShow: true,
-            showorders: arrOrders
-          })
-        }
-      }
-    });
+    //       self.setData({
+    //         isShow: false,
+    //         showorders: arrOrders
+    //       })
+    //     } else {
+    //       self.setData({
+    //         isShow: true,
+    //         showorders: arrOrders
+    //       })
+    //     }
+    //   }
+    // });
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    // var self = this;
-    // // 当前页+1
-    // var pageNumber = self.data.pageNumber + 1;
+    var self = this;
+    // 当前页+1
+    var pageNumber = self.data.pageNumber + 1;
 
-    // self.setData({
-    //   pageNumber: pageNumber,
-    // })
+    self.setData({
+      pageNumber: pageNumber,
+    })
+    var showlist = self.data.showorders
+    var states =''
+    switch (app.globalData.payCode){
+      case 1:
+        break
+      case 2:
+        states = 'states: ["initial"]'
+        break
+      case 3:
+        states = 'states: ["paid"]'
+        break
+      case 4:
+        states = 'states: ["shipped", "examined"]'
+        break 
+      case 5:
+        states = 'states: ["canceled"]' 
+        break
 
-    // if (pageNumber <= self.data.totalPage) {
-    //   wx.showLoading({
-    //     title: '加载中',
-    //   })
-    //   self.setData({
-    //     showlist: self.data.showorders
-    //   })
-    //   wx.hideLoading()
+    }
+    if (pageNumber <= self.data.totalPage) {
+      wx.showLoading({
+        title: '加载中',
+      })
+      
+      //wx.hideLoading()
       // 请求后台，获取下一页的数据。
-      // wx.request({
-      //   url: '',
-      //   data: {
-      //     pageNumber: pageNumber,
-      //   },
-      //   success: function (res) {
-      //     wx.hideLoading()
-      //     // 将新获取的数据 res.data.list，concat到前台显示的showlist中即可。
-      //     self.setData({
-      //       showlist: self.data.showlist.concat(res.data.list)
-      //     })
-      //   },
-      //   fail: function (res) {
-      //     wx.hideLoading()
-      //   }
-      // })
-    //}
+      wx.request({
+        url: 'https://api-dev.daqiuyin.com/api',
+        data: {
+          "service": "portal",
+          "method": "POST",
+          "path": "/portal/ql",
+          "data": {
+            "query": "{ myOrders(page:" + pageNumber + ", limit:10," + states +"){total, page, orders{id, user{id, nick}, examine_soil{abbr, display}, examine_stroma{abbr, display}, quantity, amount, status, ctime, ptime }}}"
+          }
+        },
+        method: 'POST',
+        header: {
+          'content-type': 'application/json', // 默认值
+          'x-auth-token': app.globalData.token
+        },
+        success: function (res) {
+          var tmparr = []
+          if (res.data.data.myOrders.orders && res.data.data.myOrders.orders.length > 0) {
+            var arr = res.data.data.myOrders.orders
+            tmparr = arr.map(x => ({
+              id: x.id,
+              examine_soil: x.examine_soil,
+              examine_stroma: x.examine_stroma,
+              amount: x.amount,
+              ctime: new Date(x.ctime).toLocaleString(),
+              ptime: new Date(x.ptime).toLocaleString(),
+              quantity: x.quantity,
+              status: x.status
+            }
+            ))
+            // 将新获取的数据 tmparr，concat到前台显示的showorders中
+            self.setData({
+              showorders: self.data.showorders.concat(tmparr)
+            })
+            
+          }
+          wx.hideLoading()
+          
+        },
+        fail: function (res) {
+          wx.hideLoading()
+        }
+      })
+    }
   },
 
   /**

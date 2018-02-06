@@ -70,7 +70,7 @@
         <text class="finalTotal" >￥{{finalTotal}} </text>
       </view>
     </view>
-    <button class="okBtn" bindtap='okCheckTap'>选好了</button>
+    <button class="okBtn" bindtap='okCheckTap' disabled='{{btnDisabled}}'>选好了</button>
   </view>
 </view>
 
