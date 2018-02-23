@@ -86,7 +86,7 @@ Page({
     } 
     
   },
-  bindAddressInput:function(e){
+  bindEmailInput:function(e){
     this.setData({ email: e.detail.value })
   },
   bindPlantInput: function (e) {
